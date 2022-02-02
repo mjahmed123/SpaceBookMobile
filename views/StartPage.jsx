@@ -12,12 +12,12 @@ function CustomButton ({title, onPress}) {
   );
 }
 
-export default function StartPage() {
+export default function StartPage({ navigation }) {
   return (
-    <View>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={styles.title}>SpaceBook</Text>
-      <CustomButton title="Register" />
-      <CustomButton title="Login" />
+      <CustomButton title="Register" onPress={() => navigation.navigate('Register')} />
+      <CustomButton title="Login" onPress={() => navigation.navigate('Login')} />
     </View>
   )
 }

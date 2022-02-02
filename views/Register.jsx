@@ -111,8 +111,9 @@ export default function Register() {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 10,
-    marginRight: 10,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center' 
   },
   errorMessage: {
     color: 'red',
@@ -135,7 +136,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: 'center',
     paddingLeft: 10,
-
+    marginLeft: 10,
+    marginRight: 10,
     marginTop: 8,
     backgroundColor: "rgba(255,255,255, 0.1)",
     borderRadius: 12,
