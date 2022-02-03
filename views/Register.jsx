@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native"
-import { AntDesign } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons'; 
+import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as User from '../services/User';
 import emailValidator from 'email-validator';
 
@@ -22,6 +21,16 @@ function CustomButton ({title, onPress}) {
     <TouchableOpacity onPress={onPress} style={styles.button}>
       <AntDesign name="adduser" size={18} color="white" />
       <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
+  );
+}
+
+function BackButton ({onPress}) {
+
+  return (
+    <TouchableOpacity onPress={onPress} style={[styles.button, styles.backButton]}>
+      <AntDesign name="back" size={18} color="white" />
+      <Text style={styles.buttonText}>Back</Text>
     </TouchableOpacity>
   );
 }
@@ -48,7 +57,7 @@ function validateFields({firstName, lastName, email, password}) {
   }
 }
 
-export default function Register() {
+export default function Register({ navigation }) {
   const [requestSent, setRequestSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   
@@ -57,6 +66,11 @@ export default function Register() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+
+  const onBackButtonClicked = () => navigation.navigate('StartPage')
+
+
 
   async function onRegisterClicked() {
     if (requestSent) return;
@@ -69,8 +83,6 @@ export default function Register() {
       setErrorMessage(error);
       return;
     }
-
-
 
 
 
@@ -92,6 +104,8 @@ export default function Register() {
   }
   return (
     <View style={styles.container}>
+      <BackButton onPress={onBackButtonClicked} />
+
       <Text style={styles.title}>Register</Text>
       <Text style={styles.text}>Register to continue</Text>
 
@@ -111,9 +125,9 @@ export default function Register() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center' 
+    justifyContent: 'center',
+    flex: 1,
   },
   errorMessage: {
     color: 'red',
@@ -156,6 +170,13 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     borderRadius: 20,
     backgroundColor: '#2570e8'
+  },
+  backButton: {
+    position: 'absolute',
+    top: 0,
+    left: 10,
+    width: 80,
+    backgroundColor: 'rgba(255,255,255,0.3)'
   },
   buttonText: {
     fontWeight: 'bold',
