@@ -3,10 +3,14 @@ import { AntDesign } from '@expo/vector-icons';
 
 
 
-function CustomButton ({title, onPress}) {
+const LoginIcon = () => <AntDesign name="login" size={18} color="white" />
+const RegisterIcon = () => <AntDesign name="adduser" size={18} color="white" />
+
+function CustomButton ({title, Icon, onPress}) {
+
   return (
     <TouchableOpacity onPress={onPress} style={styles.button}>
-      <AntDesign name="adduser" size={18} color="white" />
+      {Icon()}
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
@@ -16,8 +20,8 @@ export default function StartPage({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={styles.title}>SpaceBook</Text>
-      <CustomButton title="Register" onPress={() => navigation.navigate('Register')} />
-      <CustomButton title="Login" onPress={() => navigation.navigate('Login')} />
+      <CustomButton Icon={RegisterIcon} title="Register" onPress={() => navigation.navigate('Register')} />
+      <CustomButton Icon={LoginIcon} title="Login" onPress={() => navigation.navigate('Login')} />
     </View>
   )
 }
