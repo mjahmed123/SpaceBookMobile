@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-nativ
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as User from '../services/User';
 import emailValidator from 'email-validator';
+import { login } from "../services/User";
+import { rootStore } from "../stores/RootStore";
 
 const NameIcon = () => <AntDesign name="user" size={18} color="rgba(255,255,255,0.6)" />;
 const EmailIcon = () => <Entypo name="email" size={18} color="rgba(255,255,255,0.6)" />;
@@ -96,10 +98,13 @@ export default function Register({ navigation }) {
       .catch(error => {
         const errorMessage = error.response.data;
         setErrorMessage(errorMessage);
+        setRequestSent(false)
       })
-      .finally(() => setRequestSent(false))
     if (!result) return;
-    // TODO: use login request
+    
+    const loginResult = await login({email, password});
+    rootStore.account.setToken(loginResult.data.token);
+    navigation.navigate('Home');
 
   }
   return (
