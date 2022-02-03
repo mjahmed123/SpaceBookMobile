@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native"
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as User from '../services/User';
+import {setToken, getToken} from "../utils/token"
 import emailValidator from 'email-validator';
 
 const EmailIcon = () => <Entypo name="email" size={18} color="rgba(255,255,255,0.6)" />;
@@ -79,6 +80,9 @@ export default function Login({ navigation }) {
       })
       .finally(() => setRequestSent(false))
     if (!result) return;
+    await setToken(result.data.token);
+    const token = await getToken();
+    console.log(token);
 
   }
   return (
