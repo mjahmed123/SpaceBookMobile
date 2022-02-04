@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { rootStore } from './stores/RootStore';
 import { getToken } from './utils/token';
 import { observer } from 'mobx-react-lite';
-
+import { color } from './utils/colorSchemes';
 
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -21,7 +21,7 @@ const navTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: 'black',
+    background: color.BACKGROUND,
   },
 };
 

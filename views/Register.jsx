@@ -5,6 +5,7 @@ import * as User from '../services/User';
 import emailValidator from 'email-validator';
 import { login } from "../services/User";
 import { rootStore } from "../stores/RootStore";
+import { color } from "../utils/colorSchemes";
 
 const NameIcon = () => <AntDesign name="user" size={18} color="rgba(255,255,255,0.6)" />;
 const EmailIcon = () => <Entypo name="email" size={18} color="rgba(255,255,255,0.6)" />;
@@ -174,7 +175,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     borderRadius: 20,
-    backgroundColor: '#2570e8'
+    backgroundColor: color.PRIMARY
   },
   backButton: {
     position: 'absolute',

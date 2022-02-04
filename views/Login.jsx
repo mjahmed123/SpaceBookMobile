@@ -4,6 +4,7 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import * as User from '../services/User';
 import {rootStore} from "../stores/RootStore";
 import emailValidator from 'email-validator';
+import { color } from "../utils/colorSchemes";
 
 const EmailIcon = () => <Entypo name="email" size={18} color="rgba(255,255,255,0.6)" />;
 const PasswordIcon = () => <AntDesign name="lock" size={18} color="rgba(255,255,255,0.6)" />;
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     borderRadius: 20,
-    backgroundColor: '#2570e8'
+    backgroundColor: color.PRIMARY
   },
   backButton: {
     position: 'absolute',

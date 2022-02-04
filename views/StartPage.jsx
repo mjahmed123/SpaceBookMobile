@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
+import { color } from "../utils/colorSchemes";
 
 
 
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     borderRadius: 20,
-    backgroundColor: '#2570e8'
+    backgroundColor: color.PRIMARY
   },
   buttonText: {
     fontWeight: 'bold',
