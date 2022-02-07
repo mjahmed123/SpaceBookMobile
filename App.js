@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { rootStore } from './stores/RootStore';
-import { getToken } from './utils/token';
+import { getToken, getUserId } from './utils/localStore';
 import { observer } from 'mobx-react-lite';
 import { color } from './utils/colorSchemes';
 
@@ -27,7 +27,8 @@ const navTheme = {
 
 async function getAsyncStorageToken() {
   const token = await getToken();
-  rootStore.account.setToken(token || undefined, false);
+  const userId = await getUserId();
+  rootStore.account.setLoggedInDetails(token || undefined, userId || undefined, false);
 }
 getAsyncStorageToken();
 
