@@ -6,10 +6,13 @@ import emailValidator from 'email-validator';
 import { login } from "../services/User";
 import { rootStore } from "../stores/RootStore";
 import { color } from "../utils/colorSchemes";
+import CustomButton from "../components/CustomButton";
 
+const RegisterIcon = () => <AntDesign name="adduser" size={18} color="white" />
 const NameIcon = () => <AntDesign name="user" size={18} color="rgba(255,255,255,0.6)" />;
 const EmailIcon = () => <Entypo name="email" size={18} color="rgba(255,255,255,0.6)" />;
 const PasswordIcon = () => <AntDesign name="lock" size={18} color="rgba(255,255,255,0.6)" />;
+const BackIcon = () => <AntDesign name="back" size={18} color="white" />;
 
 function CustomInput ({placeholder, icon, secure, onChangeText}) {
   return (
@@ -19,24 +22,8 @@ function CustomInput ({placeholder, icon, secure, onChangeText}) {
     </View>
   )
 }
-function CustomButton ({title, onPress}) {
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
-      <AntDesign name="adduser" size={18} color="white" />
-      <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
-  );
-}
 
-function BackButton ({onPress}) {
 
-  return (
-    <TouchableOpacity onPress={onPress} style={[styles.button, styles.backButton]}>
-      <AntDesign name="back" size={18} color="white" />
-      <Text style={styles.buttonText}>Back</Text>
-    </TouchableOpacity>
-  );
-}
 
 
 function validateFields({firstName, lastName, email, password}) {
@@ -104,13 +91,13 @@ export default function Register({ navigation }) {
     if (!result) return;
     
     const loginResult = await login({email, password});
-    rootStore.account.setToken(loginResult.data.token);
+    rootStore.account.setLoggedInDetails(loginResult.token, loginResult.id);
     navigation.navigate('Home');
 
   }
   return (
     <View style={styles.container}>
-      <BackButton onPress={onBackButtonClicked} />
+      <CustomButton onPress={onBackButtonClicked} title="Back" Icon={BackIcon} style={styles.backButton} />
 
       <Text style={styles.title}>Register</Text>
       <Text style={styles.text}>Register to continue</Text>
@@ -121,7 +108,7 @@ export default function Register({ navigation }) {
       <CustomInput onChangeText={setEmail} icon={EmailIcon} placeholder="Email" />
       <CustomInput onChangeText={setPassword} secure={true} icon={PasswordIcon} placeholder="Password" />
 
-      <CustomButton onPress={onRegisterClicked} title={requestSent ? 'Registering...' : "Register"} />
+      <CustomButton onPress={onRegisterClicked} title={requestSent ? 'Registering...' : "Register"} Icon={RegisterIcon} />
 
     </View>
   );
@@ -166,17 +153,6 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 8,
   },
-  button: {
-    flexDirection: "row",
-    justifyContent: 'center',
-    marginTop: 10,
-    alignSelf: 'center',
-    width: 120,
-    paddingBottom: 10,
-    paddingTop: 10,
-    borderRadius: 20,
-    backgroundColor: color.PRIMARY
-  },
   backButton: {
     position: 'absolute',
     top: 0,
@@ -184,10 +160,5 @@ const styles = StyleSheet.create({
     width: 80,
     backgroundColor: 'rgba(255,255,255,0.3)'
   },
-  buttonText: {
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginLeft: 5
-  }
+
 });

@@ -1,21 +1,14 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { color } from "../utils/colorSchemes";
+import CustomButton from "../components/CustomButton";
 
 
 
 const LoginIcon = () => <AntDesign name="login" size={18} color="white" />
 const RegisterIcon = () => <AntDesign name="adduser" size={18} color="white" />
 
-function CustomButton ({title, Icon, onPress}) {
 
-  return (
-    <TouchableOpacity onPress={onPress} style={styles.button}>
-      {Icon()}
-      <Text style={styles.buttonText}>{title}</Text>
-    </TouchableOpacity>
-  );
-}
 
 export default function StartPage({ navigation }) {
   return (
@@ -34,21 +27,4 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 30
   },
-  button: {
-    flexDirection: "row",
-    justifyContent: 'center',
-    marginTop: 10,
-    alignSelf: 'center',
-    width: 120,
-    paddingBottom: 10,
-    paddingTop: 10,
-    borderRadius: 20,
-    backgroundColor: color.PRIMARY
-  },
-  buttonText: {
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginLeft: 5
-  }
 })
