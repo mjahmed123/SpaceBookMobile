@@ -1,22 +1,21 @@
-import { makeAutoObservable } from "mobx";
-import {setToken as setStorageToken,  setUserId as setStorageUserId} from '../utils/localStore'
+import { makeAutoObservable } from 'mobx';
+import { setToken as setStorageToken, setUserId as setStorageUserId } from '../utils/localStore';
 
-export class AccountStore {
-
+export default class AccountStore {
   token = null;
+
   userId = null;
 
   constructor(rootStore) {
-    makeAutoObservable(this, { rootStore: false })
-    this.rootStore = rootStore
+    makeAutoObservable(this, { rootStore: false });
+    this.rootStore = rootStore;
   }
-  
+
   setLoggedInDetails(token, userId, setStorage = true) {
     this.token = token;
     this.userId = userId;
     if (!setStorage) return;
-    setStorageToken(token)
-    setStorageUserId(userId)
+    setStorageToken(token);
+    setStorageUserId(userId);
   }
-
 }

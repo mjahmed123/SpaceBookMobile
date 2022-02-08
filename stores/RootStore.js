@@ -1,4 +1,5 @@
-import {AccountStore} from './Account';
+import AccountStore from './Account';
+
 export class RootStore {
   constructor() {
     this.account = new AccountStore(this);
