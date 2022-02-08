@@ -1,4 +1,4 @@
-export const color =  {
-  PRIMARY: "#2570e8",
-  BACKGROUND: "black"
-}
+export default {
+  PRIMARY: '#2570e8',
+  BACKGROUND: 'black',
+};

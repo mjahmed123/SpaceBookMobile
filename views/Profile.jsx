@@ -8,7 +8,7 @@ import { rootStore } from '../stores/RootStore';
 import { getUserById } from '../services/User';
 import Avatar from '../components/Avatar';
 import CustomButton from '../components/CustomButton';
-import { color } from '../utils/colorSchemes';
+import color from '../utils/colorSchemes';
 
 function Tab({ onPress, isSelected, title }) {
   return (

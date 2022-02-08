@@ -100,8 +100,8 @@ export default function Register({ navigation }) {
 
     const responseData = {
       email,
-      first_name: firstName,
-      last_name: lastName,
+      firstName,
+      lastName,
       password,
     };
     const result = await User.addAccount(responseData)

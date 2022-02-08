@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
 
-import { color } from '../utils/colorSchemes';
+import color from '../utils/colorSchemes';
 
 function SettingsIcon() {
   return <Ionicons name="settings" size={18} color="white" />;

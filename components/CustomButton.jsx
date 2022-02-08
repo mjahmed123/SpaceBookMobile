@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { color as colorSchemes } from '../utils/colorSchemes';
+import colorSchemes from '../utils/colorSchemes';
 
 export default function CustomButton({
   title, onPress, Icon, style, color,

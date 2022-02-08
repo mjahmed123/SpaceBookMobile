@@ -4,7 +4,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { rootStore } from './stores/RootStore';
 import { getToken, getUserId } from './utils/localStore';
-import { color } from './utils/colorSchemes';
+import color from './utils/colorSchemes';
 
 // views
 import Register from './views/Register';
