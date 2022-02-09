@@ -33,6 +33,7 @@ export function getUserById(id) {
   })
     .then((result) => result.data);
 }
+
 export function getUserPhotoById(id) {
   return axios.get(`${API_URL}/user/${id}/photo`, {
     responseType: 'arraybuffer',
@@ -41,4 +42,12 @@ export function getUserPhotoById(id) {
     },
   })
     .then((result) => Buffer.from(result.data, 'binary').toString('base64'));
+}
+export function getFriendRequests() {
+  return axios.get(`${API_URL}/friendrequests`, {
+    headers: {
+      'X-Authorization': rootStore.account.token,
+    },
+  })
+    .then((result) => result.data);
 }
