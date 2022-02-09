@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  View, Text, StyleSheet, TextInput,
+  View, Text, StyleSheet,
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 import emailValidator from 'email-validator';
@@ -9,6 +9,7 @@ import * as User from '../services/User';
 import { login } from '../services/User';
 import { rootStore } from '../stores/RootStore';
 import CustomButton from '../components/CustomButton';
+import CustomInput from '../components/CustomInput';
 
 function RegisterIcon() {
   return <AntDesign name="adduser" size={18} color="white" />;
@@ -25,29 +26,6 @@ function PasswordIcon() {
 function BackIcon() {
   return <AntDesign name="back" size={18} color="white" />;
 }
-
-function CustomInput({
-  placeholder, icon, secure, onChangeText,
-}) {
-  return (
-    <View style={styles.inputContainer}>
-      {icon()}
-      <TextInput
-        onChangeText={onChangeText}
-        secureTextEntry={secure || false}
-        style={styles.input}
-        placeholder={placeholder}
-      />
-    </View>
-  );
-}
-
-CustomInput.propTypes = {
-  placeholder: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  secure: PropTypes.string.isRequired,
-  onChangeText: PropTypes.string.isRequired,
-};
 
 function validateFields({
   firstName, lastName, email, password,
@@ -161,20 +139,6 @@ const styles = StyleSheet.create({
     opacity: 0.6,
     color: 'white',
     textAlign: 'center',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: 10,
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 8,
-    backgroundColor: 'rgba(255,255,255, 0.1)',
-    borderRadius: 12,
-  },
-  input: {
-    color: 'white',
-    padding: 8,
   },
   backButton: {
     position: 'absolute',
