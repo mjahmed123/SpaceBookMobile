@@ -43,8 +43,32 @@ export function getUserPhotoById(id) {
   })
     .then((result) => Buffer.from(result.data, 'binary').toString('base64'));
 }
+export function getFriends(userId = rootStore.account.userId) {
+  return axios.get(`${API_URL}/user/${userId}/friends`, {
+    headers: {
+      'X-Authorization': rootStore.account.token,
+    },
+  })
+    .then((result) => result.data);
+}
 export function getFriendRequests() {
   return axios.get(`${API_URL}/friendrequests`, {
+    headers: {
+      'X-Authorization': rootStore.account.token,
+    },
+  })
+    .then((result) => result.data);
+}
+export function acceptRequest(userId) {
+  return axios.post(`${API_URL}/friendrequests/${userId}`, {}, {
+    headers: {
+      'X-Authorization': rootStore.account.token,
+    },
+  })
+    .then((result) => result.data);
+}
+export function declineRequest(userId) {
+  return axios.delete(`${API_URL}/friendrequests/${userId}`, {
     headers: {
       'X-Authorization': rootStore.account.token,
     },
