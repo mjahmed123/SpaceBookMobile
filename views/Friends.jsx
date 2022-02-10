@@ -1,30 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { getFriendRequests } from '../services/User';
+import { Ionicons, Entypo } from '@expo/vector-icons';
+import {
+  getFriends, getFriendRequests, acceptRequest, declineRequest,
+} from '../services/User';
 import Avatar from '../components/Avatar';
 
-function FriendRequest({ user }) {
+function Friend({
+  user, isFriendRequest, onAccepted, onDeclined,
+}) {
+  const onAcceptClicked = async () => {
+    await acceptRequest(user.user_id);
+    onAccepted?.();
+  };
+  const onDeclineClicked = async () => {
+    await declineRequest(user.user_id);
+    onDeclined?.();
+  };
   return (
-    <View style={styles.friendRequest}>
+    <View style={styles.friend}>
       <Avatar userId={user.user_id} size={40} style={styles.avatar} />
-      <Text style={styles.friendRequestName}>
-        {user.first_name}
-        {' '}
-        {user.last_name}
+      <Text style={styles.friendName}>
+        {`${user.first_name || user.user_familyname} ${user.last_name || user.user_givenname}`}
       </Text>
+      {isFriendRequest && (
+      <View style={styles.actions}>
+        <Ionicons onPress={onAcceptClicked} name="checkmark" size={24} color="white" />
+        <Entypo onPress={onDeclineClicked} name="cross" size={24} color="white" />
+      </View>
+      )}
     </View>
   );
 }
-FriendRequest.propTypes = {
+
+Friend.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object]),
+  isFriendRequest: PropTypes.bool,
+  onAccepted: PropTypes.func,
+  onDeclined: PropTypes.func,
 };
 export default function Friends() {
   const [requests, setRequests] = useState(null);
+  const [friends, setFriends] = useState(null);
+
+  const fetchRequests = () => {
+    getFriendRequests().then(setRequests);
+  };
+  const fetchFriends = () => {
+    getFriends().then(setFriends);
+  };
   useEffect(() => {
-    getFriendRequests().then((results) => {
-      setRequests(results);
-    });
+    fetchRequests();
+    fetchFriends();
   }, []);
 
   return (
@@ -37,9 +65,33 @@ export default function Friends() {
         </Text>
         )}
       {
-        requests?.map((user) => <FriendRequest key={user.user_id} user={user} />)
+        requests?.map((user) => (
+          <Friend
+            onAccepted={fetchRequests}
+            isFriendRequest
+            onDeclined={fetchRequests}
+            key={user.user_id}
+            user={user}
+          />
+        ))
       }
       <Text style={styles.title}>Friends</Text>
+      { !friends?.length
+        && (
+        <Text style={styles.message}>
+          Looks like you don&apos;t have any friends yet!
+        </Text>
+        )}
+      {
+        friends?.map((user) => (
+          <Friend
+            onAccepted={fetchRequests}
+            onDeclined={fetchRequests}
+            key={user.user_id}
+            user={user}
+          />
+        ))
+      }
     </View>
   );
 }
@@ -52,7 +104,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     marginTop: 5,
   },
-  friendRequest: {
+  friend: {
     flexDirection: 'row',
     paddingTop: 5,
     paddingBottom: 5,
@@ -62,7 +114,7 @@ const styles = StyleSheet.create({
   avatar: {
     marginRight: 10,
   },
-  friendRequestName: {
+  friendName: {
     color: 'white',
     fontSize: 16,
   },
@@ -70,5 +122,10 @@ const styles = StyleSheet.create({
     color: 'white',
     opacity: 0.8,
     textAlign: 'center',
+  },
+  actions: {
+    marginLeft: 'auto',
+    marginRight: 5,
+    flexDirection: 'row',
   },
 });
