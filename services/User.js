@@ -51,6 +51,12 @@ export function getFriends(userId = rootStore.account.userId) {
   })
     .then((result) => result.data);
 }
+
+export async function isFriendsWithUser(friendUserId) {
+  const myFriends = await getFriends();
+  return !!myFriends.find((friend) => friend.user_id === friendUserId);
+}
+
 export function getFriendRequests() {
   return axios.get(`${API_URL}/friendrequests`, {
     headers: {
