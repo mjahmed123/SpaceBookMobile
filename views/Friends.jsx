@@ -1,46 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import PropTypes from 'prop-types';
-import { Ionicons, Entypo } from '@expo/vector-icons';
 import {
-  getFriends, getFriendRequests, acceptRequest, declineRequest,
+  ScrollView, Text, StyleSheet,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import {
+  getFriends, getFriendRequests,
 } from '../services/User';
-import Avatar from '../components/Avatar';
+import Friend from '../components/Friend';
 
-function Friend({
-  user, isFriendRequest, onAccepted, onDeclined,
-}) {
-  const onAcceptClicked = async () => {
-    await acceptRequest(user.user_id);
-    onAccepted?.();
-  };
-  const onDeclineClicked = async () => {
-    await declineRequest(user.user_id);
-    onDeclined?.();
-  };
-  return (
-    <View style={styles.friend}>
-      <Avatar userId={user.user_id} size={40} style={styles.avatar} />
-      <Text style={styles.friendName}>
-        {`${user.first_name || user.user_familyname} ${user.last_name || user.user_givenname}`}
-      </Text>
-      {isFriendRequest && (
-      <View style={styles.actions}>
-        <Ionicons onPress={onAcceptClicked} name="checkmark" size={24} color="white" />
-        <Entypo onPress={onDeclineClicked} name="cross" size={24} color="white" />
-      </View>
-      )}
-    </View>
-  );
-}
-
-Friend.propTypes = {
-  user: PropTypes.oneOfType([PropTypes.object]),
-  isFriendRequest: PropTypes.bool,
-  onAccepted: PropTypes.func,
-  onDeclined: PropTypes.func,
-};
-export default function Friends() {
+export default function Friends({ navigation }) {
   const [requests, setRequests] = useState(null);
   const [friends, setFriends] = useState(null);
 
@@ -56,7 +24,7 @@ export default function Friends() {
   }, []);
 
   return (
-    <View>
+    <ScrollView>
       <Text style={styles.title}>Friend Requests</Text>
       { !requests?.length
         && (
@@ -67,6 +35,7 @@ export default function Friends() {
       {
         requests?.map((user) => (
           <Friend
+            onClick={() => navigation.navigate('Profile', { userId: user.user_id })}
             onAccepted={fetchRequests}
             isFriendRequest
             onDeclined={fetchRequests}
@@ -85,6 +54,7 @@ export default function Friends() {
       {
         friends?.map((user) => (
           <Friend
+            onClick={() => navigation.navigate('Profile', { userId: user.user_id })}
             onAccepted={fetchRequests}
             onDeclined={fetchRequests}
             key={user.user_id}
@@ -92,10 +62,15 @@ export default function Friends() {
           />
         ))
       }
-    </View>
+    </ScrollView>
   );
 }
 
+Friends.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 const styles = StyleSheet.create({
   title: {
     color: 'white',
@@ -103,20 +78,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 5,
     marginTop: 5,
-  },
-  friend: {
-    flexDirection: 'row',
-    paddingTop: 5,
-    paddingBottom: 5,
-    paddingLeft: 10,
-    alignItems: 'center',
-  },
-  avatar: {
-    marginRight: 10,
-  },
-  friendName: {
-    color: 'white',
-    fontSize: 16,
   },
   message: {
     color: 'white',
