@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
-  ScrollView, Text, StyleSheet,
+  ScrollView, Text, StyleSheet, View,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {
   getFriends, getFriendRequests,
 } from '../services/User';
 import Friend from '../components/Friend';
+import SearchFriends from '../components/SearchFriends';
 
 export default function Friends({ navigation }) {
   const [requests, setRequests] = useState(null);
@@ -24,15 +25,17 @@ export default function Friends({ navigation }) {
   }, []);
 
   return (
-    <ScrollView>
-      <Text style={styles.title}>Friend Requests</Text>
-      { !requests?.length
+    <ScrollView style={styles.scrollContainer}>
+      <SearchFriends />
+      <View style={styles.container}>
+        <Text style={styles.title}>Friend Requests</Text>
+        { !requests?.length
         && (
         <Text style={styles.message}>
           Looks like you don&apos;t have any friend requests yet!
         </Text>
         )}
-      {
+        {
         requests?.map((user) => (
           <Friend
             onClick={() => navigation.navigate('Profile', { userId: user.user_id })}
@@ -44,14 +47,16 @@ export default function Friends({ navigation }) {
           />
         ))
       }
-      <Text style={styles.title}>Friends</Text>
-      { !friends?.length
+      </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>Friends</Text>
+        { !friends?.length
         && (
         <Text style={styles.message}>
           Looks like you don&apos;t have any friends yet!
         </Text>
         )}
-      {
+        {
         friends?.map((user) => (
           <Friend
             onClick={() => navigation.navigate('Profile', { userId: user.user_id })}
@@ -62,6 +67,8 @@ export default function Friends({ navigation }) {
           />
         ))
       }
+
+      </View>
     </ScrollView>
   );
 }
@@ -72,21 +79,26 @@ Friends.propTypes = {
   }).isRequired,
 };
 const styles = StyleSheet.create({
+  scrollContainer: {
+    paddingTop: 5,
+  },
+  container: {
+    backgroundColor: 'rgba(255,255,255,0.1)',
+    padding: 5,
+    borderRadius: 8,
+    margin: 10,
+    marginTop: 5,
+    marginBottom: 5,
+  },
   title: {
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
     marginLeft: 5,
-    marginTop: 5,
   },
   message: {
     color: 'white',
     opacity: 0.8,
     textAlign: 'center',
-  },
-  actions: {
-    marginLeft: 'auto',
-    marginRight: 5,
-    flexDirection: 'row',
   },
 });
