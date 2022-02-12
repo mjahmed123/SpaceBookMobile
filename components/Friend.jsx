@@ -23,12 +23,12 @@ export default function Friend({
     <TouchableOpacity onPress={onClick} style={styles.friend}>
       <Avatar userId={user.user_id} size={40} style={styles.avatar} />
       <Text style={styles.friendName}>
-        {`${user.first_name || user.user_familyname} ${user.last_name || user.user_givenname}`}
+        {`${user.first_name || user.user_givenname} ${user.last_name || user.user_familyname}`}
       </Text>
       {isFriendRequest && (
       <View style={styles.actions}>
-        <Ionicons onPress={onAcceptClicked} name="checkmark" size={24} color="white" />
-        <Entypo onPress={onDeclineClicked} name="cross" size={24} color="white" />
+        <Ionicons style={[styles.action, { backgroundColor: 'green' }]} onPress={onAcceptClicked} name="checkmark" size={24} color="white" />
+        <Entypo style={[styles.action, { backgroundColor: 'red' }]} onPress={onDeclineClicked} name="cross" size={24} color="white" />
       </View>
       )}
     </TouchableOpacity>
@@ -57,5 +57,17 @@ const styles = StyleSheet.create({
   friendName: {
     color: 'white',
     fontSize: 16,
+  },
+  actions: {
+    marginLeft: 'auto',
+    marginRight: 5,
+    flexDirection: 'row',
+  },
+  action: {
+    padding: 5,
+    paddingLeft: 7,
+    paddingRight: 7,
+    borderRadius: 8,
+    marginLeft: 5,
   },
 });
