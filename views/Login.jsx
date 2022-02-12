@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   errorMessage: {
-    backgroundColor: 'green',
     color: 'red',
     textAlign: 'center',
     maxWidth: 200,
