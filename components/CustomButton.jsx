@@ -10,7 +10,7 @@ export default function CustomButton({
   return (
     <TouchableOpacity onPress={onPress} style={[styles.button, { backgroundColor }, style]}>
       {Icon && Icon()}
-      <Text style={styles.buttonText}>{title}</Text>
+      {title && <Text style={styles.buttonText}>{title}</Text>}
     </TouchableOpacity>
   );
 }
