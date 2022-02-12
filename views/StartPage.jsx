@@ -17,8 +17,8 @@ export default function StartPage({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text style={styles.title}>SpaceBook</Text>
-      <CustomButton Icon={RegisterIcon} title="Register" onPress={() => navigation.navigate('Register')} />
-      <CustomButton Icon={LoginIcon} title="Login" onPress={() => navigation.navigate('Login')} />
+      <CustomButton style={styles.button} Icon={RegisterIcon} title="Register" onPress={() => navigation.navigate('Register')} />
+      <CustomButton style={styles.button} Icon={LoginIcon} title="Login" onPress={() => navigation.navigate('Login')} />
     </View>
   );
 }
@@ -34,5 +34,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 30,
+  },
+  button: {
+    width: 120,
   },
 });
