@@ -1,63 +1,63 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
-  Text, StyleSheet, View, TextInput, TouchableOpacity,
+  StyleSheet, View,
 } from 'react-native';
-import color from '../utils/colorSchemes';
+import { searchUsers } from '../services/User';
+import SearchFriendsTab from './SearchFriendsTab';
+import SearchFriendsBar from './SearchFriendsBar';
+import Friend from './Friend';
 
-export default function SearchFriends() {
+export default function SearchFriends({ setSearchFocused, isSearchFocused }) {
   const [value, setValue] = useState('');
-  const [isInputFocused, setInputFocused] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [currentOffset, setCurrentOffset] = useState(0);
+  const [users, setUsers] = useState([]);
+
+  const onRequestSearch = async (val) => {
+    setCurrentOffset(0);
+    const fetchedUsers = await searchUsers({
+      query: val,
+      limit: 20,
+      offset: currentOffset,
+      searchIn: selectedTab === 0 ? 'all' : 'friends',
+    });
+    setUsers(fetchedUsers);
+    console.log(fetchedUsers);
+  };
+  const onTabClicked = (tab) => {
+    setSelectedTab(tab);
+    onRequestSearch();
+  };
+
   return (
     <View>
-      <TextInput style={styles.searchBar} onChangeText={setValue} onFocus={() => setInputFocused(true)} onBlur={() => setInputFocused(false)} placeholder="Search Friends" />
-
-      {(!!value || isInputFocused) && (
-      <View style={styles.items}>
-        <View style={styles.tabs}>
-          <TouchableOpacity style={[styles.tab, styles.selectedTab]}>
-            <Text style={styles.tabText}>All</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tab}>
-            <Text style={styles.tabText}>Friends</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <SearchFriendsBar
+        isSearchFocused={isSearchFocused}
+        setSearchFocused={setSearchFocused}
+        onTextChanged={setValue}
+        onRequestSearch={onRequestSearch}
+      />
+      {(!!value || isSearchFocused) && (
+        <>
+          <SearchFriendsTab onTabClicked={onTabClicked} selectedTab={selectedTab} />
+          <View style={styles.items}>
+            {users.map((user) => <Friend key={user.user_id} user={user} />)}
+          </View>
+        </>
       )}
 
     </View>
   );
 }
+
+SearchFriends.propTypes = {
+  setSearchFocused: PropTypes.func,
+  isSearchFocused: PropTypes.bool,
+};
+
 const styles = StyleSheet.create({
-  searchBar: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    padding: 10,
-    margin: 10,
-    marginBottom: 5,
-    borderRadius: 8,
-    color: 'white',
-  },
-  tabText: {
-    color: 'white',
-  },
   items: {
 
-  },
-  tabs: {
-    height: 40,
-    flexDirection: 'row',
-    marginLeft: 10,
-    marginRight: 10,
-    borderRadius: 8,
-    overflow: 'hidden',
-  },
-  tab: {
-    height: '100%',
-    backgroundColor: 'rgba(255,255,255, 0.1)',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  selectedTab: {
-    backgroundColor: color.PRIMARY,
   },
 });
