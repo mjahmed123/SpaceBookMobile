@@ -81,3 +81,24 @@ export function declineRequest(userId) {
   })
     .then((result) => result.data);
 }
+
+// query: search value
+// searchIn: friends, all
+// limit: number of items to return
+// offset: skip items
+export function searchUsers({
+  query, searchIn, limit, offset,
+}) {
+  return axios.get(`${API_URL}/search`, {
+    params: {
+      q: query,
+      search_in: searchIn,
+      limit,
+      offset,
+    },
+    headers: {
+      'X-Authorization': rootStore.account.token,
+    },
+  })
+    .then((result) => result.data);
+}
