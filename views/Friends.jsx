@@ -12,6 +12,7 @@ import SearchFriends from '../components/SearchFriends';
 export default function Friends({ navigation }) {
   const [requests, setRequests] = useState(null);
   const [friends, setFriends] = useState(null);
+  const [isSearchFocused, setSearchFocused] = useState(false);
 
   const fetchRequests = () => {
     getFriendRequests().then(setRequests);
@@ -24,9 +25,19 @@ export default function Friends({ navigation }) {
     fetchFriends();
   }, []);
 
+  if (isSearchFocused) {
+    return (
+      <ScrollView
+        style={styles.scrollContainer}
+      >
+        <SearchFriends setSearchFocused={setSearchFocused} isSearchFocused={isSearchFocused} />
+      </ScrollView>
+    );
+  }
+
   return (
     <ScrollView style={styles.scrollContainer}>
-      <SearchFriends />
+      <SearchFriends setSearchFocused={setSearchFocused} />
       <View style={styles.container}>
         <Text style={styles.title}>Friend Requests</Text>
         { !requests?.length
