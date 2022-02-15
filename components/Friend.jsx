@@ -2,14 +2,14 @@ import React from 'react';
 import {
   TouchableOpacity, View, Text, StyleSheet,
 } from 'react-native';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import Avatar from './Avatar';
-
+import colorSchemes from '../utils/colorSchemes';
 import { acceptRequest, declineRequest } from '../services/User';
 
 export default function Friend({
-  user, isFriendRequest, onAccepted, onDeclined, onClick,
+  user, isFriendRequest, isSearching, onAccepted, onDeclined, onClick,
 }) {
   const onAcceptClicked = async () => {
     await acceptRequest(user.user_id);
@@ -25,6 +25,11 @@ export default function Friend({
       <Text style={styles.friendName}>
         {`${user.first_name || user.user_givenname} ${user.last_name || user.user_familyname}`}
       </Text>
+      {isSearching && (
+      <View style={styles.actions}>
+        <AntDesign style={[styles.action, { backgroundColor: colorSchemes.PRIMARY }]} onPress={onAcceptClicked} name="adduser" size={24} color="white" />
+      </View>
+      )}
       {isFriendRequest && (
       <View style={styles.actions}>
         <Ionicons style={[styles.action, { backgroundColor: 'green' }]} onPress={onAcceptClicked} name="checkmark" size={24} color="white" />
@@ -38,6 +43,7 @@ export default function Friend({
 Friend.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object]),
   isFriendRequest: PropTypes.bool,
+  isSearching: PropTypes.bool,
   onAccepted: PropTypes.func,
   onDeclined: PropTypes.func,
   onClick: PropTypes.func,
