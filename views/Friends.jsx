@@ -30,14 +30,18 @@ export default function Friends({ navigation }) {
       <ScrollView
         style={styles.scrollContainer}
       >
-        <SearchFriends setSearchFocused={setSearchFocused} isSearchFocused={isSearchFocused} />
+        <SearchFriends
+          navigation={navigation}
+          setSearchFocused={setSearchFocused}
+          isSearchFocused={isSearchFocused}
+        />
       </ScrollView>
     );
   }
 
   return (
     <ScrollView style={styles.scrollContainer}>
-      <SearchFriends setSearchFocused={setSearchFocused} />
+      <SearchFriends navigation={navigation} setSearchFocused={setSearchFocused} />
       <View style={styles.container}>
         <Text style={styles.title}>Friend Requests</Text>
         { !requests?.length

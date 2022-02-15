@@ -19,6 +19,7 @@ export default function Home() {
       <Tab.Navigator
         screenOptions={{ headerShown: false }}
         tabBar={TabBar}
+        initialRouteName="Friends"
       >
         <Tab.Screen name="Profile" component={Profile} />
         <Tab.Screen name="Friends" component={Friends} />
