@@ -16,11 +16,13 @@ export default function SearchBar({
   const onClearPress = () => {
     searchInputRef.current.focus();
     setValue('');
+    onRequestSearch('');
     onTextChanged('');
   };
   const onBackPress = () => {
     setValue('');
     onTextChanged('');
+    onRequestSearch('');
     setSearchFocused(false);
   };
 
