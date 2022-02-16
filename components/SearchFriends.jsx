@@ -4,11 +4,12 @@ import {
   StyleSheet, View, Text,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { searchUsers } from '../services/User';
+import { searchUsers, getFriends } from '../services/User';
 import SearchFriendsTab from './SearchFriendsTab';
 import SearchFriendsBar from './SearchFriendsBar';
 import Friend from './Friend';
 import CustomButton from './CustomButton';
+import { rootStore } from '../stores/RootStore';
 
 function LoadMoreIcon() {
   return <FontAwesome name="refresh" size={24} color="white" />;
@@ -20,6 +21,7 @@ export default function SearchFriends({ setSearchFocused, isSearchFocused, navig
   const [selectedTab, setSelectedTab] = useState(0);
   const [offset, setOffset] = useState(0);
   const [users, setUsers] = useState(null);
+  const [friendIds, setFriendIds] = useState([]);
 
   const [lastFetchedLength, setLastFetchedLength] = useState(0);
 
@@ -57,6 +59,17 @@ export default function SearchFriends({ setSearchFocused, isSearchFocused, navig
     onRequestSearch(value);
   }, [selectedTab]);
 
+  // Display 'add friend' icon if user is not a friend.
+  async function getFriendIds() {
+    const friends = await getFriends();
+    const mappedFriendIds = friends.map((friend) => friend.user_id.toString());
+    // Ensures that the current logged in user cannot add themselves as a friend.
+    setFriendIds([...mappedFriendIds, rootStore.account.userId.toString()]);
+  }
+  useEffect(() => {
+    getFriendIds();
+  }, []);
+
   return (
     <View>
       <SearchFriendsBar
@@ -69,7 +82,7 @@ export default function SearchFriends({ setSearchFocused, isSearchFocused, navig
         <>
           <SearchFriendsTab onTabClicked={setSelectedTab} selectedTab={selectedTab} />
           <View>
-            {users?.map((user) => <Friend isSearching onClick={() => navigation.navigate('Profile', { userId: user.user_id })} key={user.user_id} user={user} />)}
+            {users?.map((user) => <Friend isSearching={!friendIds.includes(user.user_id.toString())} onClick={() => navigation.navigate('Profile', { userId: user.user_id })} key={user.user_id} user={user} />)}
             {lastFetchedLength === limit && <CustomButton style={styles.loadMoreButton} onPress={onLoadMorePressed} title="Load More" Icon={LoadMoreIcon} />}
 
             {users && !users.length && (
