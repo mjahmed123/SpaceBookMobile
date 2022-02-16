@@ -65,6 +65,14 @@ export function getFriendRequests() {
   })
     .then((result) => result.data);
 }
+export function sendRequest(userId) {
+  return axios.post(`${API_URL}/user/${userId}/friends`, {}, {
+    headers: {
+      'X-Authorization': rootStore.account.token,
+    },
+  })
+    .then((result) => result.data);
+}
 export function acceptRequest(userId) {
   return axios.post(`${API_URL}/friendrequests/${userId}`, {}, {
     headers: {
