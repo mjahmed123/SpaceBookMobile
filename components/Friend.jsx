@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   TouchableOpacity, View, Text, StyleSheet,
 } from 'react-native';
@@ -6,11 +6,12 @@ import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 import Avatar from './Avatar';
 import colorSchemes from '../utils/colorSchemes';
-import { acceptRequest, declineRequest } from '../services/User';
+import { acceptRequest, declineRequest, sendRequest } from '../services/User';
 
 export default function Friend({
   user, isFriendRequest, isSearching, onAccepted, onDeclined, onClick,
 }) {
+  const [message, setMessage] = useState();
   const onAcceptClicked = async () => {
     await acceptRequest(user.user_id);
     onAccepted?.();
@@ -19,15 +20,21 @@ export default function Friend({
     await declineRequest(user.user_id);
     onDeclined?.();
   };
+  const onAddClicked = async () => {
+    await sendRequest(user.user_id)
+      .then(() => setMessage('Friend Added!'))
+      .catch(() => setMessage('Friend Already Added!'));
+  };
   return (
     <TouchableOpacity onPress={onClick} style={styles.friend}>
       <Avatar userId={user.user_id} size={40} style={styles.avatar} />
       <Text style={styles.friendName}>
         {`${user.first_name || user.user_givenname} ${user.last_name || user.user_familyname}`}
       </Text>
-      {isSearching && (
+      {!!message && <View style={styles.actions}><Text style={{ color: 'white' }}>{message}</Text></View>}
+      {!message && isSearching && (
       <View style={styles.actions}>
-        <AntDesign style={[styles.action, { backgroundColor: colorSchemes.PRIMARY }]} onPress={onAcceptClicked} name="adduser" size={24} color="white" />
+        <AntDesign style={[styles.action, { backgroundColor: colorSchemes.PRIMARY }]} onPress={onAddClicked} name="adduser" size={20} color="white" />
       </View>
       )}
       {isFriendRequest && (
@@ -75,5 +82,6 @@ const styles = StyleSheet.create({
     paddingRight: 7,
     borderRadius: 8,
     marginLeft: 5,
+    marginRight: 5,
   },
 });
