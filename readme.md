@@ -18,7 +18,7 @@ Screenshots coming soon!
 
 ### Friend Managment
 - [x] GET /user/{user_id}/friends
-- [ ] POST /user/{user_id}/friends
+- [x] POST /user/{user_id}/friends
 - [x] GET /friendrequests
 - [x] POST /friendrequests/{user_id}
 - [x] DELETE /friendrequests/{user_id}
