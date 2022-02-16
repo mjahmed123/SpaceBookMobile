@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderRadius: 8,
     overflow: 'hidden',
+    marginBottom: 5,
   },
   tab: {
     height: '100%',
