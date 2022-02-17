@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { rootStore } from '../stores/RootStore';
-import { getUserById, isFriendsWithUser } from '../services/User';
+import { getUserById, isFriendsWithUser, sendRequest } from '../services/User';
 import Avatar from '../components/Avatar';
 import CustomButton from '../components/CustomButton';
 import color from '../utils/colorSchemes';
@@ -58,12 +58,21 @@ function FriendIcon() {
   return <Ionicons name="person-add-sharp" size={18} color="white" />;
 }
 
-function AddFriendButton({ isAdded }) {
+function AddFriendButton({ isAdded, onPress }) {
   if (isAdded) return <View />;
-  if (!isAdded) return <CustomButton Icon={FriendIcon} style={styles.addButton} />;
+  if (!isAdded) {
+    return (
+      <CustomButton
+        onPress={onPress}
+        Icon={FriendIcon}
+        style={styles.addButton}
+      />
+    );
+  }
 }
 AddFriendButton.propTypes = {
   isAdded: PropTypes.bool,
+  onPress: PropTypes.func,
 };
 export default function Profile({ route, navigation }) {
   const loggedInUserId = rootStore.account.userId;
@@ -71,6 +80,7 @@ export default function Profile({ route, navigation }) {
   const [user, setUser] = useState(null);
   const [isAdded, setIsAdded] = useState(null);
   const isSelf = loggedInUserId.toString() === userId.toString();
+  const [message, setMessage] = useState();
 
   useEffect(async () => {
     setUser(null);
@@ -81,6 +91,12 @@ export default function Profile({ route, navigation }) {
     const fetchIsAdded = await isFriendsWithUser(userId);
     setIsAdded(fetchIsAdded || isSelf);
   }, [route]);
+
+  const onAddClicked = async () => {
+    await sendRequest(user.user_id)
+      .then(() => setMessage('Friend Added!'))
+      .catch(() => setMessage('Friend Already Added!'));
+  };
 
   if (!user) return <View />;
 
@@ -95,7 +111,17 @@ export default function Profile({ route, navigation }) {
           <Text style={styles.friendCount}>
             {`${user?.friend_count} friends`}
           </Text>
-          {isAdded !== null && <AddFriendButton isAdded={isAdded} />}
+          {(!message && isAdded !== null) && (
+            <AddFriendButton onPress={onAddClicked} isAdded={isAdded} />
+          )}
+          {message && (
+          <Text style={{
+            color: 'white', position: 'absolute', right: 10, bottom: 10,
+          }}
+          >
+            {message}
+          </Text>
+          )}
         </View>
       </View>
       <Tabs friendUserId={user?.user_id} navigation={navigation} hideTabs={isSelf} />
