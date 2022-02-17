@@ -13,6 +13,7 @@ Screenshots coming soon!
 - [x] POST /login
 - [ ] POST /logout
 - [x] GET /user/{user_id}
+- [ ] PATCH /user/{user_id}
 - [x] GET /user/{user_id}/photo
 - [ ] POST /user/{user_id}/photo
 
