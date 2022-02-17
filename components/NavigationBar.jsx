@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import {
   View, Text, StyleSheet, TouchableOpacity,
 } from 'react-native';
-import { Ionicons, FontAwesome5, FontAwesome } from '@expo/vector-icons';
+import {
+  Ionicons, FontAwesome5, FontAwesome,
+} from '@expo/vector-icons';
 
 import color from '../utils/colorSchemes';
 
@@ -13,8 +15,8 @@ function SettingsIcon() {
 function FriendsIcon() {
   return <FontAwesome5 name="user-friends" size={18} color="white" />;
 }
-function SearchIcon() {
-  return <Ionicons name="search" size={18} color="white" />;
+function DraftsIcon() {
+  return <FontAwesome name="bookmark" size={18} color="white" />;
 }
 function ProfileIcon() {
   return <FontAwesome name="user" size={18} color="white" />;
@@ -25,7 +27,7 @@ function Tab({
 }) {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.tab, selected && styles.tabSelected]}>
-      {Icon?.()}
+      <View style={{ height: 20, width: 18, alignItems: 'center' }}>{Icon?.()}</View>
       <Text style={styles.tabText}>{title}</Text>
     </TouchableOpacity>
   );
@@ -44,7 +46,7 @@ export default function NavigationBar({ state, navigation }) {
     <View style={styles.container}>
       <Tab title="Profile" Icon={ProfileIcon} selected={index === 0} onPress={() => navigation.navigate('Profile')} />
       <Tab title="Friends" Icon={FriendsIcon} selected={index === 1} onPress={() => navigation.navigate('Friends')} />
-      <Tab title="Search" Icon={SearchIcon} selected={index === 2} onPress={() => navigation.navigate('Search')} />
+      <Tab title="Drafts" Icon={DraftsIcon} selected={index === 2} onPress={() => navigation.navigate('Drafts')} />
       <Tab title="Settings" Icon={SettingsIcon} selected={index === 3} onPress={() => navigation.navigate('Settings')} />
     </View>
   );

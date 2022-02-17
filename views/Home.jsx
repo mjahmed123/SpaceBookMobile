@@ -7,6 +7,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Profile from './Profile';
 import Friends from './Friends';
+import Drafts from './Drafts';
+import Settings from './Settings';
 import NavigationBar from '../components/NavigationBar';
 
 const Tab = createBottomTabNavigator();
@@ -23,6 +25,8 @@ export default function Home() {
       >
         <Tab.Screen name="Profile" component={Profile} />
         <Tab.Screen name="Friends" component={Friends} />
+        <Tab.Screen name="Drafts" component={Drafts} />
+        <Tab.Screen name="Settings" component={Settings} />
       </Tab.Navigator>
     </View>
   );
