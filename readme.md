@@ -11,9 +11,9 @@ Screenshots coming soon!
 ### User Managment
 - [x] POST /user
 - [x] POST /login
-- [ ] POST /logout
+- [x] POST /logout
 - [x] GET /user/{user_id}
-- [ ] PATCH /user/{user_id}
+- [x] PATCH /user/{user_id}
 - [x] GET /user/{user_id}/photo
 - [ ] POST /user/{user_id}/photo
 
