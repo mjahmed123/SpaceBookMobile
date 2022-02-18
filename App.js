@@ -32,12 +32,17 @@ getAsyncStorageToken();
 export default observer(() => {
   const { account } = rootStore;
 
+  if (account.token === 'reload') {
+    getAsyncStorageToken();
+    return <NavigationContainer theme={navTheme} />;
+  }
+
   if (account.token === null) {
     return <NavigationContainer theme={navTheme} />;
   }
 
   return (
-    <NavigationContainer theme={navTheme}>
+    <NavigationContainer theme={navTheme} key={account.token}>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
         initialRouteName={account.token ? 'Home' : 'StartPage'}

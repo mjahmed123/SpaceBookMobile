@@ -4,8 +4,10 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import validateFields from '../utils/validateFields';
 import { rootStore } from '../stores/RootStore';
-import { getUserById } from '../services/User';
+import { getUserById, logout, updateUser } from '../services/User';
 import Avatar from '../components/Avatar';
 import CustomButton from '../components/CustomButton';
 
@@ -17,6 +19,11 @@ function LogoutIcon() {
 }
 
 function UserSummary({ user }) {
+  const onLogoutClicked = async () => {
+    await logout();
+    await AsyncStorage.clear();
+    rootStore.account.setLoggedInDetails('reload', null, false);
+  };
   return (
     <View style={styles.summaryContainer}>
       <Avatar userId={user.user_id} size={60} />
@@ -24,7 +31,7 @@ function UserSummary({ user }) {
         <Text style={styles.summaryText}>{`${user.first_name} ${user.last_name}`}</Text>
         <Text style={styles.summarySecondText}>{`${user.email}`}</Text>
       </View>
-      <CustomButton style={{ marginLeft: 'auto', marginTop: 0 }} Icon={LogoutIcon} color="red" />
+      <CustomButton onPress={onLogoutClicked} style={{ marginLeft: 'auto', marginTop: 0 }} Icon={LogoutIcon} color="red" />
     </View>
   );
 }
@@ -38,7 +45,7 @@ UserSummary.propTypes = {
   }),
 };
 function CustomInput({
-  title, initialValue, onInput, secure,
+  title, value, onInput, secure,
 }) {
   return (
     <View style={styles.container}>
@@ -50,7 +57,7 @@ function CustomInput({
         secureTextEntry={secure}
         style={styles.input}
         onChangeText={onInput}
-        defaultValue={initialValue}
+        value={value}
       />
     </View>
   );
@@ -59,16 +66,56 @@ function CustomInput({
 CustomInput.propTypes = {
   secure: PropTypes.bool,
   title: PropTypes.string,
-  initialValue: PropTypes.string,
+  value: PropTypes.string,
   onInput: PropTypes.func,
 };
 
 export default function Settings() {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
+  const [requestSent, setRequestSent] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [password, setPassword] = useState('');
+
+  async function fetchUser() {
     const { userId } = rootStore.account;
-    getUserById(userId).then(setUser);
+    const fetchedUser = await getUserById(userId);
+    setUser(fetchedUser);
+    setEmail(fetchedUser.email);
+    setFirstName(fetchedUser.first_name);
+    setLastName(fetchedUser.last_name);
+  }
+
+  const onSavePressed = async () => {
+    setErrorMessage(null);
+
+    const fieldErrorMessage = validateFields({
+      firstName, lastName, email, password,
+    }, true);
+
+    if (fieldErrorMessage) {
+      setErrorMessage(fieldErrorMessage);
+      return;
+    }
+
+    setRequestSent(true);
+    await updateUser({
+      // if the field is updated, add it to this request.
+      ...(email !== user.email && { email }),
+      ...(firstName !== user.first_name && { firstName }),
+      ...(lastName !== user.last_name && { lastName }),
+      ...(password && { password }),
+    })
+      .finally(() => setRequestSent(false));
+    fetchUser();
+  };
+
+  useEffect(() => {
+    fetchUser();
   }, []);
 
   if (!user) {
@@ -77,16 +124,21 @@ export default function Settings() {
   return (
     <ScrollView>
       <UserSummary user={user} />
-      <CustomInput title="Email" initialValue={user.email} />
-      <CustomInput title="First Name" initialValue={user.first_name} />
-      <CustomInput title="Last Name" initialValue={user.last_name} />
-      <CustomInput secure title="Password" initialValue="" />
-      <CustomButton title="Save Changes" Icon={SaveIcon} />
+      <CustomInput title="Email" onInput={setEmail} value={email} />
+      <CustomInput title="First Name" onInput={setFirstName} value={firstName} />
+      <CustomInput title="Last Name" onInput={setLastName} value={lastName} />
+      <CustomInput secure title="New Password" onInput={setPassword} value={password} />
+      <Text style={styles.errorMessage}>{errorMessage}</Text>
+      <CustomButton title={requestSent ? 'Saving...' : 'Save Changes'} onPress={onSavePressed} Icon={SaveIcon} />
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  errorMessage: {
+    color: 'red',
+    alignSelf: 'center',
+  },
   summaryContainer: {
     backgroundColor: 'rgba(255,255,255,0.1)',
     margin: 10,
