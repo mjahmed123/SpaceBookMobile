@@ -4,7 +4,7 @@ import {
   View, Text, StyleSheet,
 } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
-import emailValidator from 'email-validator';
+import validateFields from '../utils/validateFields';
 import * as User from '../services/User';
 import { login } from '../services/User';
 import { rootStore } from '../stores/RootStore';
@@ -25,30 +25,6 @@ function PasswordIcon() {
 }
 function BackIcon() {
   return <AntDesign name="back" size={18} color="white" />;
-}
-
-function validateFields({
-  firstName, lastName, email, password,
-}) {
-  if (!firstName.trim()) {
-    return 'First name is not provided!';
-  }
-  if (!lastName.trim()) {
-    return 'Last name is not provided!';
-  }
-  if (!email.trim()) {
-    return 'Email is not provided!';
-  }
-  if (!password.trim()) {
-    return 'Password is not provided!';
-  }
-  if (!emailValidator.validate(email)) {
-    return 'Email provided is not valid!';
-  }
-  if (password.length <= 5) {
-    return 'Password must be longer than 5 characters!';
-  }
-  return undefined;
 }
 
 export default function Register({ navigation }) {
