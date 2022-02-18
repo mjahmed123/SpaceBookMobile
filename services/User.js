@@ -25,6 +25,28 @@ export function login({ email, password }) {
     .then((result) => result.data);
 }
 
+export function logout() {
+  return axios.post(`${API_URL}/logout`, {}, {
+    headers: {
+      'X-Authorization': rootStore.account.token,
+    },
+  });
+}
+export function updateUser({
+  firstName, lastName, email, password,
+}) {
+  return axios.patch(`${API_URL}/user/${rootStore.account.userId}`, {
+    first_name: firstName,
+    last_name: lastName,
+    email,
+    password,
+  }, {
+    headers: {
+      'X-Authorization': rootStore.account.token,
+    },
+  });
+}
+
 export function getUserById(id) {
   return axios.get(`${API_URL}/user/${id}`, {
     headers: {
