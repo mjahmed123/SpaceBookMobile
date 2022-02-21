@@ -15,7 +15,7 @@ Screenshots coming soon!
 - [x] GET /user/{user_id}
 - [x] PATCH /user/{user_id}
 - [x] GET /user/{user_id}/photo
-- [ ] POST /user/{user_id}/photo
+- [x] POST /user/{user_id}/photo
 
 ### Friend Managment
 - [x] GET /user/{user_id}/friends
