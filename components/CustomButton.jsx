@@ -4,13 +4,13 @@ import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import colorSchemes from '../utils/colorSchemes';
 
 export default function CustomButton({
-  title, onPress, Icon, style, color,
+  title, onPress, Icon, style, color, textSize,
 }) {
   const backgroundColor = color || colorSchemes.PRIMARY;
   return (
     <TouchableOpacity onPress={onPress} style={[styles.button, { backgroundColor }, style]}>
       {Icon && Icon()}
-      {title && <Text style={styles.buttonText}>{title}</Text>}
+      {title && <Text style={[styles.buttonText, { fontSize: textSize || 14 }]}>{title}</Text>}
     </TouchableOpacity>
   );
 }
@@ -20,6 +20,7 @@ CustomButton.propTypes = {
   Icon: PropTypes.func,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array, PropTypes.number]),
   color: PropTypes.string,
+  textSize: PropTypes.number,
 };
 const styles = StyleSheet.create({
   button: {
