@@ -39,7 +39,7 @@ export default function SearchBar({
   return (
     <View style={styles.searchBarContainer}>
       {isSearchFocused && <Ionicons onPress={onBackPress} style={styles.icons} name="arrow-back-outline" size={22} color="white" />}
-      <TextInput ref={searchInputRef} style={styles.searchBar} value={value} onChangeText={onTextChange} onFocus={onInputFocus} placeholder="Search Friends" />
+      <TextInput ref={searchInputRef} style={styles.searchBar} value={value} onChangeText={onTextChange} onFocus={onInputFocus} placeholder="Search..." />
       {!!value && <Ionicons onPress={onClearPress} style={styles.icons} name="close-sharp" size={22} color="white" />}
     </View>
   );
