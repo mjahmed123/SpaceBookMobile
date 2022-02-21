@@ -56,6 +56,20 @@ export function getUserById(id) {
     .then((result) => result.data);
 }
 
+export async function uploadAvatar(base64) {
+  const base64String = base64.split(',')[1];
+  const isPNG = base64.includes('image/png');
+  const isJPEG = base64.includes('image/jpeg') || base64.includes('image/jpg');
+  if (!isPNG && !isJPEG) throw Error('Image must be a PNG or a JPEG file type!');
+  return axios.post(`${API_URL}/user/${rootStore.account.userId}/photo`, Buffer.from(base64String, 'base64'), {
+    headers: {
+      'X-Authorization': rootStore.account.token,
+      'Content-Type': isPNG ? 'image/png' : 'image/jpeg',
+    },
+  })
+    .then((result) => result.data);
+}
+
 export function getUserPhotoById(id) {
   return axios.get(`${API_URL}/user/${id}/photo`, {
     responseType: 'arraybuffer',
