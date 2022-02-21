@@ -5,9 +5,13 @@ import {
 import PropTypes from 'prop-types';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ImagePicker from 'expo-image-picker';
 import validateFields from '../utils/validateFields';
 import { rootStore } from '../stores/RootStore';
-import { getUserById, logout, updateUser } from '../services/User';
+import {
+  getUserById, logout, updateUser, uploadAvatar,
+} from '../services/User';
+import ErrorModal from '../components/ErrorModal';
 import Avatar from '../components/Avatar';
 import CustomButton from '../components/CustomButton';
 
@@ -17,16 +21,44 @@ function SaveIcon() {
 function LogoutIcon() {
   return <MaterialIcons name="logout" size={18} color="white" />;
 }
+function EditAvatarIcon() {
+  return <MaterialIcons name="edit" size={18} color="white" />;
+}
 
 function UserSummary({ user }) {
+  const [avatarVersion, setAvatarVersion] = useState(0);
+  const [error, setError] = useState(null);
   const onLogoutClicked = async () => {
     await logout();
     await AsyncStorage.clear();
     rootStore.account.setLoggedInDetails('reload', null, false);
   };
+
+  const onEditAvatarClicked = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (result.cancelled) return;
+    setError(null);
+    await uploadAvatar(result.uri).catch((err) => {
+      setError(err?.response?.data || err.message);
+    });
+    setAvatarVersion(avatarVersion + 1);
+  };
   return (
     <View style={styles.summaryContainer}>
-      <Avatar userId={user.user_id} size={60} />
+      {!!error && <ErrorModal message={error} onOkayClicked={() => setError(null)} />}
+      <Avatar key={avatarVersion} userId={user.user_id} size={60} />
+      <CustomButton
+        style={{
+          position: 'absolute', left: 43, bottom: 5, padding: 5,
+        }}
+        onPress={onEditAvatarClicked}
+        Icon={EditAvatarIcon}
+      />
       <View style={styles.summaryDetails}>
         <Text style={styles.summaryText}>{`${user.first_name} ${user.last_name}`}</Text>
         <Text style={styles.summarySecondText}>{`${user.email}`}</Text>
@@ -50,8 +82,7 @@ function CustomInput({
   return (
     <View style={styles.container}>
       <Text style={styles.inputTitle}>
-        {title}
-        :
+        {`${title}:`}
       </Text>
       <TextInput
         secureTextEntry={secure}
