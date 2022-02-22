@@ -54,7 +54,7 @@ export default function Friends({ navigation }) {
         requests?.map((user) => (
           <Friend
             onClick={() => navigation.navigate('Profile', { userId: user.user_id })}
-            onAccepted={fetchRequests}
+            onAccepted={() => { fetchRequests(); fetchFriends(); }}
             isFriendRequest
             onDeclined={fetchRequests}
             key={user.user_id}
@@ -75,8 +75,6 @@ export default function Friends({ navigation }) {
         friends?.map((user) => (
           <Friend
             onClick={() => navigation.navigate('Profile', { userId: user.user_id })}
-            onAccepted={fetchRequests}
-            onDeclined={fetchRequests}
             key={user.user_id}
             user={user}
           />
