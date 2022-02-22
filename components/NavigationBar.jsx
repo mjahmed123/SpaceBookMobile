@@ -44,7 +44,7 @@ export default function NavigationBar({ state, navigation }) {
   const { index } = state;
   return (
     <View style={styles.container}>
-      <Tab title="Profile" Icon={ProfileIcon} selected={index === 0} onPress={() => navigation.navigate('Profile')} />
+      <Tab title="Profile" Icon={ProfileIcon} selected={index === 0} onPress={() => navigation.navigate('Profile', { key: Math.random() })} />
       <Tab title="Friends" Icon={FriendsIcon} selected={index === 1} onPress={() => navigation.navigate('Friends')} />
       <Tab title="Drafts" Icon={DraftsIcon} selected={index === 2} onPress={() => navigation.navigate('Drafts')} />
       <Tab title="Settings" Icon={SettingsIcon} selected={index === 3} onPress={() => navigation.navigate('Settings')} />
