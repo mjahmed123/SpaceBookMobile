@@ -10,6 +10,7 @@ import Avatar from '../components/Avatar';
 import CustomButton from '../components/CustomButton';
 import color from '../utils/colorSchemes';
 import ProfileFriendsTab from '../components/ProfileFriendsTab';
+import ProfilePostsTab from '../components/ProfilePostsTab';
 
 function Tab({ onPress, isSelected, title }) {
   return (
@@ -36,6 +37,9 @@ function Tabs({ friendUserId, navigation, hideTabs }) {
         <Tab title="Posts" onPress={() => setTab(0)} isSelected={selectedTab === 0} />
         <Tab title="Friends" onPress={() => setTab(1)} isSelected={selectedTab === 1} />
       </View>
+      )}
+      {selectedTab === 0 && (
+        <ProfilePostsTab userId={friendUserId} />
       )}
       {selectedTab === 1 && (
         <ProfileFriendsTab
