@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { rootStore } from '../stores/RootStore';
+import config from '../config';
 
-export const API_URL = 'http://localhost:3333/api/1.0.0';
+const { API_URL } = config;
 
 // returns {id}
 export function addAccount({
