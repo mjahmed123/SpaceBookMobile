@@ -26,10 +26,13 @@ Screenshots coming soon!
 - [x] GET /search
 
 ### Post Managment
-- [ ] GET /user/{user_id}/post
-- [ ] POST /user/{user_id}/post
+- [x] GET /user/{user_id}/post
+- [x] POST /user/{user_id}/post
+
 - [ ] GET /user/{user_id}/post/{post_id}
+
 - [ ] DELETE /user/{user_id}/post/{post_id}
 - [ ] PATCH /user/{user_id}/post/{post_id}
+
 - [ ] POST /user/{user_id}/post/{post_id}/like
 - [ ] DELETE /user/{user_id}/post/{post_id}/like
