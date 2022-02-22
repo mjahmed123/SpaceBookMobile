@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
-  ScrollView, Text, View, StyleSheet, TextInput,
+  ScrollView, Text, View, StyleSheet, TextInput, TouchableOpacity,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
@@ -51,7 +51,9 @@ function UserSummary({ user }) {
   return (
     <View style={styles.summaryContainer}>
       {!!error && <ErrorModal message={error} onOkayClicked={() => setError(null)} />}
-      <Avatar key={avatarVersion} userId={user.user_id} size={60} />
+      <TouchableOpacity onPress={onEditAvatarClicked}>
+        <Avatar key={avatarVersion} userId={user.user_id} size={60} />
+      </TouchableOpacity>
       <CustomButton
         style={{
           position: 'absolute', left: 43, bottom: 5, padding: 5,
