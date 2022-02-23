@@ -31,8 +31,8 @@ Screenshots coming soon!
 
 - [ ] GET /user/{user_id}/post/{post_id}
 
-- [ ] DELETE /user/{user_id}/post/{post_id}
+- [x] DELETE /user/{user_id}/post/{post_id}
 - [ ] PATCH /user/{user_id}/post/{post_id}
 
-- [ ] POST /user/{user_id}/post/{post_id}/like
-- [ ] DELETE /user/{user_id}/post/{post_id}/like
+- [x] POST /user/{user_id}/post/{post_id}/like
+- [x] DELETE /user/{user_id}/post/{post_id}/like
