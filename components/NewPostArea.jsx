@@ -4,7 +4,6 @@ import {
   View, Text, StyleSheet, TextInput,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { rootStore } from '../stores/RootStore';
 import { createPost } from '../services/Post';
 import CustomButton from './CustomButton';
 import ErrorModal from './ErrorModal';
@@ -22,7 +21,7 @@ export default function NewPostArea({ userId, onPosted }) {
     if (requestSent) return;
 
     if (!text.trim()) {
-      setErrorMessage('You cannot send an empty message!');
+      setErrorMessage('You cannot send an empty post!');
       return;
     }
     if (text.trim().length > 300) {
