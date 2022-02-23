@@ -5,7 +5,7 @@ import { getPosts } from '../services/Post';
 import NewPostArea from './NewPostArea';
 import ProfilePost from './ProfilePost';
 
-export default function ProfilePostsTab({ userId }) {
+export default function ProfilePostsTab({ userId, navigation }) {
   const [posts, setPosts] = useState(null);
   const [error, setError] = useState(null);
   async function fetchPosts() {
@@ -17,18 +17,33 @@ export default function ProfilePostsTab({ userId }) {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  const onDeleted = (i) => {
+    setPosts(posts.filter((post, index) => index !== i));
+  };
   return (
     <View>
       {!error && <NewPostArea onPosted={() => fetchPosts()} userId={userId} />}
       {error && <Text style={styles.error}>{error}</Text>}
       {(posts && !posts.length) && <Text style={styles.error}>This user has no posts.</Text>}
-      {posts?.map((post) => <ProfilePost key={post.post_id} post={post} />)}
+      {posts?.map((post, i) => (
+        <ProfilePost
+          key={post.post_id}
+          navigation={navigation}
+          profileUserId={userId}
+          post={post}
+          onDeleted={() => onDeleted(i)}
+        />
+      ))}
     </View>
   );
 }
 
 ProfilePostsTab.propTypes = {
   userId: PropTypes.number,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({
