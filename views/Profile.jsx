@@ -27,7 +27,7 @@ Tab.propTypes = {
 };
 
 function Tabs({ friendUserId, navigation, hideTabs }) {
-  // 0 is posts, 1 is friends.
+  // 0 is for posts, 1 is for friends.
   const [selectedTab, setTab] = useState(0);
 
   return (
@@ -39,7 +39,7 @@ function Tabs({ friendUserId, navigation, hideTabs }) {
       </View>
       )}
       {selectedTab === 0 && (
-        <ProfilePostsTab userId={friendUserId} />
+        <ProfilePostsTab userId={friendUserId} navigation={navigation} />
       )}
       {selectedTab === 1 && (
         <ProfileFriendsTab
