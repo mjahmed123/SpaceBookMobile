@@ -108,6 +108,7 @@ export default function Settings() {
 
   const [requestSent, setRequestSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -125,6 +126,7 @@ export default function Settings() {
 
   const onSavePressed = async () => {
     setErrorMessage(null);
+    setSuccessMessage(null);
 
     const fieldErrorMessage = validateFields({
       firstName, lastName, email, password,
@@ -144,6 +146,7 @@ export default function Settings() {
       ...(password && { password }),
     })
       .finally(() => setRequestSent(false));
+    setSuccessMessage('Updated Profile!');
     fetchUser();
   };
 
@@ -162,6 +165,7 @@ export default function Settings() {
       <CustomInput title="Last Name" onInput={setLastName} value={lastName} />
       <CustomInput secure title="New Password" onInput={setPassword} value={password} />
       <Text style={styles.errorMessage}>{errorMessage}</Text>
+      <Text style={styles.successMessage}>{successMessage}</Text>
       <CustomButton title={requestSent ? 'Saving...' : 'Save Changes'} onPress={onSavePressed} Icon={SaveIcon} />
     </ScrollView>
   );
@@ -170,6 +174,10 @@ export default function Settings() {
 const styles = StyleSheet.create({
   errorMessage: {
     color: 'red',
+    alignSelf: 'center',
+  },
+  successMessage: {
+    color: 'green',
     alignSelf: 'center',
   },
   summaryContainer: {
