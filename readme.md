@@ -32,7 +32,7 @@ Screenshots coming soon!
 - [ ] GET /user/{user_id}/post/{post_id}
 
 - [x] DELETE /user/{user_id}/post/{post_id}
-- [ ] PATCH /user/{user_id}/post/{post_id}
+- [x] PATCH /user/{user_id}/post/{post_id}
 
 - [x] POST /user/{user_id}/post/{post_id}/like
 - [x] DELETE /user/{user_id}/post/{post_id}/like
