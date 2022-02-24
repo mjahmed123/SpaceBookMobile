@@ -22,8 +22,12 @@ export function editPost(userId, postId, text) {
     .then((result) => result.data);
 }
 
-export function getPosts(userId) {
+export function getPosts(userId, { limit, offset }) {
   return axios.get(`${API_URL}/user/${userId}/post`, {
+    params: {
+      limit,
+      offset,
+    },
     headers: {
       'X-Authorization': rootStore.account.token,
     },
