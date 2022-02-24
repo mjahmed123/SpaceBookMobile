@@ -8,10 +8,18 @@ import { getUserPhotoById } from '../services/User';
 export default function Avatar({ style, userId, size }) {
   const [photo, setPhoto] = useState(null);
 
-  useEffect(async () => {
-    if (!userId) return;
-    const fetchedPhoto = await getUserPhotoById(userId);
-    setPhoto(fetchedPhoto);
+  useEffect(() => {
+    let isMounted = true;
+
+    if (userId) {
+      getUserPhotoById(userId).then((fetchedPhoto) => {
+        if (isMounted) setPhoto(fetchedPhoto);
+      });
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [userId]);
 
   return (
