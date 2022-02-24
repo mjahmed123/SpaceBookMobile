@@ -42,12 +42,20 @@ Tab.propTypes = {
 
 export default function NavigationBar({ state, navigation }) {
   const { index } = state;
+
+  const navigate = (routeName) => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: routeName }],
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Tab title="Profile" Icon={ProfileIcon} selected={index === 0} onPress={() => navigation.navigate('Profile', { key: Math.random() })} />
-      <Tab title="Friends" Icon={FriendsIcon} selected={index === 1} onPress={() => navigation.navigate('Friends')} />
-      <Tab title="Drafts" Icon={DraftsIcon} selected={index === 2} onPress={() => navigation.navigate('Drafts')} />
-      <Tab title="Settings" Icon={SettingsIcon} selected={index === 3} onPress={() => navigation.navigate('Settings')} />
+      <Tab title="Profile" Icon={ProfileIcon} selected={index === 0} onPress={() => navigate('Profile')} />
+      <Tab title="Friends" Icon={FriendsIcon} selected={index === 1} onPress={() => navigate('Friends')} />
+      <Tab title="Drafts" Icon={DraftsIcon} selected={index === 2} onPress={() => navigate('Drafts')} />
+      <Tab title="Settings" Icon={SettingsIcon} selected={index === 3} onPress={() => navigate('Settings')} />
     </View>
   );
 }
@@ -55,7 +63,7 @@ export default function NavigationBar({ state, navigation }) {
 NavigationBar.propTypes = {
   state: PropTypes.number,
   navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
   }).isRequired,
 };
 
