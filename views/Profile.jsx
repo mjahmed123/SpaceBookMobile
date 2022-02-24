@@ -26,7 +26,9 @@ Tab.propTypes = {
   title: PropTypes.string,
 };
 
-function Tabs({ friendUserId, navigation, hideTabs }) {
+function Tabs({
+  friendUserId, navigation, route, hideTabs,
+}) {
   // 0 is for posts, 1 is for friends.
   const [selectedTab, setTab] = useState(0);
 
@@ -39,7 +41,7 @@ function Tabs({ friendUserId, navigation, hideTabs }) {
       </View>
       )}
       {selectedTab === 0 && (
-        <ProfilePostsTab userId={friendUserId} navigation={navigation} />
+        <ProfilePostsTab userId={friendUserId} navigation={navigation} route={route} />
       )}
       {selectedTab === 1 && (
         <ProfileFriendsTab
@@ -51,6 +53,11 @@ function Tabs({ friendUserId, navigation, hideTabs }) {
   );
 }
 Tabs.propTypes = {
+  route: PropTypes.shape({
+    params: PropTypes.shape({
+      userId: PropTypes.number,
+    }),
+  }),
   friendUserId: PropTypes.number,
   hideTabs: PropTypes.bool,
   navigation: PropTypes.shape({
@@ -128,7 +135,7 @@ export default function Profile({ route, navigation }) {
           )}
         </View>
       </View>
-      <Tabs friendUserId={user?.user_id} navigation={navigation} hideTabs={isSelf} />
+      <Tabs friendUserId={user?.user_id} navigation={navigation} route={route} hideTabs={isSelf} />
     </ScrollView>
   );
 }
