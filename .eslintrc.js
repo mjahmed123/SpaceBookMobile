@@ -22,5 +22,6 @@ module.exports = {
     'linebreak-style': 0,
     'no-use-before-define': ['error', { functions: true, classes: true, variables: false }],
     'react/require-default-props': 'off',
+    'no-param-reassign': [2, { props: false }],
   },
 };
