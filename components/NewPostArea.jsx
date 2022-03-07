@@ -60,7 +60,8 @@ export default function NewPostArea({ userId, onPosted, route }) {
         {(!!text.trim() && route.params?.draftIndex === undefined) && (
           <CustomButton onPress={onDraftClicked} color="rgba(255,255,255,0.2)" title="Draft" style={styles.button} Icon={DraftsIcon} />
         )}
-        <CustomButton onPress={onCreateClicked} title={requestSent ? 'Posting...' : 'Create Post'} style={[styles.button, styles.postButton]} Icon={AddPostIcon} />
+        <Text style={styles.counter}>{!!text.length && 300 - text.length}</Text>
+        <CustomButton onPress={onCreateClicked} title={requestSent ? 'Posting...' : 'Create Post'} style={styles.button} Icon={AddPostIcon} />
       </View>
     </View>
   );
@@ -83,9 +84,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
   },
-  postButton: {
-    marginLeft: 'auto',
-  },
+
   container: {
     backgroundColor: 'rgba(255,255,255,0.1)',
     padding: 5,
@@ -106,6 +105,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.6)',
     padding: 5,
     borderRadius: 4,
+  },
+  counter: {
+    color: 'white',
+    marginLeft: 'auto',
+    alignSelf: 'center',
+    marginRight: 10,
   },
   button: {
     alignSelf: 'end',
