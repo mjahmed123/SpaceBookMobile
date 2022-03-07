@@ -3,10 +3,20 @@
 ## Description
 Spacebook is a totally unique, non-plagiarised social media platform which allows astronauts to communicate with each other.
 
+## Backend Setup
+Refer to this repos readme to setup the backend: https://github.com/ash-williams/Spacebook
+
+## Frontend Setup
+1. Clone this repo using the command `git clone https://github.com/mjahmed123/SpaceBookMobile.git`
+2. Navigate to the directory using `cd SpaceBookMobile`
+2. Run `npm install` to install the required dependencies.
+3. Run `npm run web` to serve the app locally.
+The app should automatically open in your default browser.
+
 ## Screenshots
 Screenshots coming soon!
 
-## Routes Added:
+## Routes To Implement:
 
 ### User Managment
 - [x] POST /user
@@ -28,11 +38,9 @@ Screenshots coming soon!
 ### Post Managment
 - [x] GET /user/{user_id}/post
 - [x] POST /user/{user_id}/post
-
 - [ ] GET /user/{user_id}/post/{post_id}
-
+- Note: The route for getting all posts already fulfills the requirements for this route.
 - [x] DELETE /user/{user_id}/post/{post_id}
 - [x] PATCH /user/{user_id}/post/{post_id}
-
 - [x] POST /user/{user_id}/post/{post_id}/like
 - [x] DELETE /user/{user_id}/post/{post_id}/like
