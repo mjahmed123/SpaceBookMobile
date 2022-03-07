@@ -1,4 +1,5 @@
 import emailValidator from 'email-validator';
+import validatePassword from './validatePassword';
 
 function validate(value, message, optional) {
   if (!value && optional) return undefined;
@@ -22,7 +23,7 @@ export default function validateFields({
     return emailError;
   }
 
-  const passwordError = validate(password, 'Password is not provided!', optional);
+  let passwordError = validate(password, 'Password is not provided!', optional);
   if (passwordError) {
     return passwordError;
   }
@@ -34,6 +35,8 @@ export default function validateFields({
   }
 
   if ((optional && password) || !optional) {
+    passwordError = validatePassword(password);
+    if (passwordError) return passwordError;
     if (password.length <= 5) {
       return 'Password must be longer than 5 characters!';
     }
