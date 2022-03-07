@@ -1,26 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { FontAwesome } from '@expo/vector-icons';
 import { getPosts } from '../services/Post';
 import NewPostArea from './NewPostArea';
 import ProfilePost from './ProfilePost';
-import CustomButton from './CustomButton';
-
-function LoadMoreIcon() {
-  return <FontAwesome name="refresh" size={24} color="white" />;
-}
 
 export default function ProfilePostsTab({ userId, navigation, route }) {
-  const limit = 3;
-
-  const [offset, setOffset] = useState(0);
   const [posts, setPosts] = useState(null);
   const [error, setError] = useState(null);
-  const [lastFetchedLength, setLastFetchedLength] = useState(0);
 
   async function fetchPosts() {
-    const fetchedPosts = await getPosts(userId, { limit, offset }).catch(() => {
+    const fetchedPosts = await getPosts(userId).catch(() => {
       setError('You cannot view this users posts as you are not friends with them!');
     });
     setPosts(fetchedPosts);
@@ -32,9 +22,7 @@ export default function ProfilePostsTab({ userId, navigation, route }) {
   const onDeleted = (i) => {
     setPosts(posts.filter((post, index) => index !== i));
   };
-  const onLoadMorePressed = () => {
 
-  };
   return (
     <View>
       {!error && (
@@ -56,7 +44,6 @@ export default function ProfilePostsTab({ userId, navigation, route }) {
           onDeleted={() => onDeleted(i)}
         />
       ))}
-      {lastFetchedLength === limit && <CustomButton style={styles.loadMoreButton} onPress={onLoadMorePressed} title="Load More" Icon={LoadMoreIcon} />}
     </View>
   );
 }
