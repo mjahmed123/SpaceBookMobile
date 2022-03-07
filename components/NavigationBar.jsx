@@ -6,7 +6,7 @@ import {
 import {
   Ionicons, FontAwesome5, FontAwesome,
 } from '@expo/vector-icons';
-
+import { setLastSelectedTab } from '../utils/localStore';
 import color from '../utils/colorSchemes';
 
 function SettingsIcon() {
@@ -43,7 +43,8 @@ Tab.propTypes = {
 export default function NavigationBar({ state, navigation }) {
   const { index } = state;
 
-  const navigate = (routeName) => {
+  const navigate = async (routeName) => {
+    await setLastSelectedTab(routeName);
     navigation.reset({
       index: 0,
       routes: [{ name: routeName }],

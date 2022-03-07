@@ -32,3 +32,8 @@ export const removeDraft = async (index) => {
   const newDrafts = drafts.filter((_, i) => i !== index);
   await AsyncStorage.setItem('drafts', JSON.stringify(newDrafts));
 };
+
+export const getLastSelectedTab = async () => AsyncStorage.getItem('lastSelectedTab');
+export const setLastSelectedTab = async (tabName) => {
+  await AsyncStorage.setItem('lastSelectedTab', tabName);
+};
