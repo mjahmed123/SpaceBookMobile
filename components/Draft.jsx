@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  ScrollView, View, Text, StyleSheet,
+  View, Text, StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { Entypo } from '@expo/vector-icons';
 import CustomButton from './CustomButton';
 import parseDate from '../utils/parseDate';
+import DeleteModal from './DeleteModal';
 
 function DeleteIcon() {
   return <Entypo name="trash" size={16} color="white" />;
@@ -15,8 +16,11 @@ function EditIcon() {
 }
 
 export default function Draft({ draft, onDeleteClicked, onEditPressed }) {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      {showDeleteModal && <DeleteModal message="Are you sure you want to discard this draft?" onYesPress={onDeleteClicked} onNoPress={() => setShowDeleteModal(false)} />}
       <View style={styles.details}>
         <Text style={styles.name}>{`To: ${draft.firstName}`}</Text>
         <Text style={styles.timestamp}>{parseDate(draft.timestamp)}</Text>
@@ -24,9 +28,9 @@ export default function Draft({ draft, onDeleteClicked, onEditPressed }) {
       <Text style={styles.text}>{draft.text}</Text>
       <View style={styles.buttons}>
         <CustomButton onPress={onEditPressed} Icon={EditIcon} style={{ marginRight: 10 }} />
-        <CustomButton onPress={onDeleteClicked} color="red" Icon={DeleteIcon} />
+        <CustomButton onPress={() => setShowDeleteModal(true)} color="red" Icon={DeleteIcon} />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
