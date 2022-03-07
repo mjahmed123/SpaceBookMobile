@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Draft from '../components/Draft';
 import { getDrafts, removeDraft } from '../utils/localStore';
@@ -18,7 +18,8 @@ export default function Drafts({ navigation }) {
     fetchDraft();
   };
   return (
-    <View>
+    <ScrollView>
+      {!drafts?.length && <Text style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', marginTop: 30 }}>Looks like you dont have any drafts!</Text>}
       {drafts?.map((draft, i) => (
         <Draft
           key={draft.userId + draft.text}
@@ -27,7 +28,7 @@ export default function Drafts({ navigation }) {
           draft={draft}
         />
       ))}
-    </View>
+    </ScrollView>
   );
 }
 Drafts.propTypes = {
