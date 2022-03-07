@@ -28,7 +28,7 @@ function editIcon() {
 }
 
 function Actions({
-  profileUserId, post, onDeleted, onLiked, onUnliked, onEdited,
+  profileUserId, post, onDeleted, onLiked, onUnliked, onEdited, likes,
 }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -38,21 +38,25 @@ function Actions({
 
   const onDelete = async () => {
     setShowDeleteModal(false);
-    const response = await deletePost(post.author.user_id, post.post_id)
+    const response = await deletePost(profileUserId, post.post_id)
       .catch(() => setErrorMessage('Unable to delete post. Try again later!'));
     if (!response) return;
     onDeleted();
   };
 
   const onLikePressed = async () => {
-    const response = await likePost(post.author.user_id, post.post_id)
+    const response = await likePost(profileUserId, post.post_id)
       .catch(() => setErrorMessage('Cannot like this post more than once!'));
     if (!response) return;
     onLiked();
   };
 
   const onUnlikePressed = async () => {
-    const response = await unlikePost(post.author.user_id, post.post_id)
+    if (!likes) {
+      setErrorMessage('You have not liked this post yet!');
+      return;
+    }
+    const response = await unlikePost(profileUserId, post.post_id)
       .catch(() => setErrorMessage('You have not liked this post yet!'));
     if (!response) return;
     onUnliked();
@@ -116,6 +120,7 @@ export default function ProfilePost({
         <Actions
           profileUserId={profileUserId}
           post={post}
+          likes={likes}
           onDeleted={onDeleted}
           onUnliked={() => setLikes(likes - 1)}
           onLiked={() => setLikes(likes + 1)}
@@ -150,7 +155,11 @@ ProfilePost.propTypes = {
   }).isRequired,
 };
 Actions.propTypes = {
-  ...propTypes, onLiked: PropTypes.func, onUnliked: PropTypes.func, onEdited: PropTypes.func,
+  ...propTypes,
+  onLiked: PropTypes.func,
+  onUnliked: PropTypes.func,
+  onEdited: PropTypes.func,
+  likes: PropTypes.number,
 };
 
 const styles = StyleSheet.create({
