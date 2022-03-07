@@ -10,6 +10,7 @@ import CustomButton from './CustomButton';
 import { deletePost, likePost, unlikePost } from '../services/Post';
 import ErrorModal from './ErrorModal';
 import EditPostModal from './EditPostModal';
+import DeleteModal from './DeleteModal';
 
 import { rootStore } from '../stores/RootStore';
 
@@ -29,12 +30,14 @@ function editIcon() {
 function Actions({
   profileUserId, post, onDeleted, onLiked, onUnliked, onEdited,
 }) {
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [isEditVisible, setEditVisible] = useState(false);
   const isMyPost = post.author.user_id.toString() === rootStore.account.userId.toString();
   const isMyProfile = profileUserId.toString() === rootStore.account.userId.toString();
 
-  const onDeletePressed = async () => {
+  const onDelete = async () => {
+    setShowDeleteModal(false);
     const response = await deletePost(post.author.user_id, post.post_id)
       .catch(() => setErrorMessage('Unable to delete post. Try again later!'));
     if (!response) return;
@@ -57,6 +60,14 @@ function Actions({
 
   return (
     <View style={styles.actions}>
+      {showDeleteModal && (
+        <DeleteModal
+          message="Are you sure you want to delete this post?"
+          onNoPress={() => setShowDeleteModal(false)}
+          onYesPress={onDelete}
+        />
+      )}
+
       {isEditVisible && (
         <EditPostModal
           text={post.text}
@@ -76,7 +87,7 @@ function Actions({
         </View>
       )}
       {isMyPost && <CustomButton title="Edit" onPress={() => setEditVisible(true)} textSize={12} style={styles.actionButton} color="transparent" Icon={editIcon} />}
-      {isMyPost && <CustomButton title="Delete" onPress={onDeletePressed} textSize={12} style={styles.actionButton} color="transparent" Icon={deleteIcon} />}
+      {isMyPost && <CustomButton title="Delete" onPress={() => setShowDeleteModal(true)} textSize={12} style={styles.actionButton} color="transparent" Icon={deleteIcon} />}
     </View>
   );
 }
