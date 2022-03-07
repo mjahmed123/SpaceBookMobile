@@ -39,7 +39,7 @@ Screenshots coming soon!
 - [x] GET /user/{user_id}/post
 - [x] POST /user/{user_id}/post
 - [ ] GET /user/{user_id}/post/{post_id}
-- Note: The route for getting all posts already fulfills the requirements for this route.
+- Note: The route for getting all posts already fulfills the requirements for this route above.
 - [x] DELETE /user/{user_id}/post/{post_id}
 - [x] PATCH /user/{user_id}/post/{post_id}
 - [x] POST /user/{user_id}/post/{post_id}/like
