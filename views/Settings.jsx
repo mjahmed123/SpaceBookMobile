@@ -14,6 +14,7 @@ import {
 import ErrorModal from '../components/ErrorModal';
 import Avatar from '../components/Avatar';
 import CustomButton from '../components/CustomButton';
+import LogoutConfirmModal from '../components/LogoutConfirmModal';
 
 function SaveIcon() {
   return <Ionicons name="save" size={18} color="white" />;
@@ -28,7 +29,9 @@ function EditAvatarIcon() {
 function UserSummary({ user }) {
   const [avatarVersion, setAvatarVersion] = useState(0);
   const [error, setError] = useState(null);
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const onLogoutClicked = async () => {
+    setShowLogoutConfirm(false);
     await logout();
     await AsyncStorage.clear();
     rootStore.account.setLoggedInDetails('reload', null, false);
@@ -50,6 +53,12 @@ function UserSummary({ user }) {
   };
   return (
     <View style={styles.summaryContainer}>
+      {showLogoutConfirm && (
+        <LogoutConfirmModal
+          onYesPress={onLogoutClicked}
+          onNoPress={() => setShowLogoutConfirm(false)}
+        />
+      )}
       {!!error && <ErrorModal message={error} onOkayClicked={() => setError(null)} />}
       <TouchableOpacity onPress={onEditAvatarClicked}>
         <Avatar key={avatarVersion} userId={user.user_id} size={60} />
@@ -65,7 +74,7 @@ function UserSummary({ user }) {
         <Text style={styles.summaryText}>{`${user.first_name} ${user.last_name}`}</Text>
         <Text style={styles.summarySecondText}>{`${user.email}`}</Text>
       </View>
-      <CustomButton onPress={onLogoutClicked} style={{ marginLeft: 'auto', marginTop: 0 }} Icon={LogoutIcon} color="red" />
+      <CustomButton onPress={() => setShowLogoutConfirm(true)} style={{ marginLeft: 'auto', marginTop: 0 }} Icon={LogoutIcon} color="red" />
     </View>
   );
 }
