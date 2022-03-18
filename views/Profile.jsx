@@ -93,14 +93,21 @@ export default function Profile({ route, navigation }) {
   const isSelf = loggedInUserId.toString() === userId.toString();
   const [message, setMessage] = useState();
 
-  useEffect(async () => {
+  useEffect(() => {
+    let isMounted = true;
     setUser(null);
     setIsAdded(null);
-    const fetchedUser = await getUserById(userId);
-    setUser(fetchedUser);
+    getUserById(userId).then((result) => {
+      if (isMounted) setUser(result);
+    });
 
-    const fetchIsAdded = await isFriendsWithUser(userId);
-    setIsAdded(fetchIsAdded || isSelf);
+    isFriendsWithUser(userId).then((fetchIsAdded) => {
+      if (isMounted) setIsAdded(fetchIsAdded || isSelf);
+    });
+
+    return () => {
+      isMounted = false;
+    };
   }, [route]);
 
   const onAddClicked = async () => {

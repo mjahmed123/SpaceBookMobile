@@ -39,7 +39,7 @@ export default function Draft({ draft, onDeleteClicked, onEditPressed }) {
       {showDatePicker && (
         <DatePickerModal onSchedule={onSchedule} onCancelClicked={() => setShowDatePicker(false)} />
       )}
-      {showDeleteModal && <DeleteModal message="Are you sure you want to discard this draft?" onYesPress={onDeleteClicked} onNoPress={() => setShowDeleteModal(false)} />}
+      {showDeleteModal && <DeleteModal message="Are you sure you want to discard this draft?" onYesPress={() => onDeleteClicked()} onNoPress={() => setShowDeleteModal(false)} />}
       <View style={styles.details}>
         <Text style={styles.name}>{`To: ${draft.firstName}`}</Text>
         <Text style={styles.timestamp}>{parseDate(draft.timestamp)}</Text>

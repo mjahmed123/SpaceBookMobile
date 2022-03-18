@@ -21,8 +21,16 @@ export default function Friends({ navigation }) {
     getFriends().then(setFriends);
   };
   useEffect(() => {
-    fetchRequests();
-    fetchFriends();
+    let isMounted = true;
+    getFriendRequests().then((result) => {
+      if (isMounted) setRequests(result);
+    });
+    getFriends().then((result) => {
+      if (isMounted) setFriends(result);
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (isSearchFocused) {

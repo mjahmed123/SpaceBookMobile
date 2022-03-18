@@ -59,15 +59,17 @@ export default function SearchFriends({ setSearchFocused, isSearchFocused, navig
     onRequestSearch(value);
   }, [selectedTab]);
 
-  // Display 'add friend' icon if user is not a friend.
-  async function getFriendIds() {
-    const friends = await getFriends();
-    const mappedFriendIds = friends.map((friend) => friend.user_id.toString());
-    // Ensures that the current logged in user cannot add themselves as a friend.
-    setFriendIds([...mappedFriendIds, rootStore.account.userId.toString()]);
-  }
   useEffect(() => {
-    getFriendIds();
+    let isMounted = true;
+    // Display 'add friend' icon if user is not a friend.
+    getFriends().then((friends) => {
+      const mappedFriendIds = friends.map((friend) => friend.user_id.toString());
+      // Ensures that the current logged in user cannot add themselves as a friend.
+      if (isMounted) setFriendIds([...mappedFriendIds, rootStore.account.userId.toString()]);
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

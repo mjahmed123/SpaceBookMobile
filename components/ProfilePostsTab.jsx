@@ -5,18 +5,24 @@ import { getPosts } from '../services/Post';
 import NewPostArea from './NewPostArea';
 import ProfilePost from './ProfilePost';
 
+let isMounted = false;
+
 export default function ProfilePostsTab({ userId, navigation, route }) {
   const [posts, setPosts] = useState(null);
   const [error, setError] = useState(null);
 
   async function fetchPosts() {
     const fetchedPosts = await getPosts(userId).catch(() => {
-      setError('You cannot view this users posts as you are not friends with them!');
+      if (isMounted) setError('You cannot view this users posts as you are not friends with them!');
     });
-    setPosts(fetchedPosts);
+    if (isMounted) setPosts(fetchedPosts);
   }
   useEffect(() => {
+    isMounted = true;
     fetchPosts();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const onDeleted = (i) => {

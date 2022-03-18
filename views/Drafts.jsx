@@ -13,7 +13,13 @@ export default function Drafts({ navigation }) {
     getDrafts().then(setDrafts);
   };
   useEffect(() => {
-    fetchDraft();
+    let isMounted = true;
+    getDrafts().then((fetchedDrafts) => {
+      if (isMounted) setDrafts(fetchedDrafts);
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
   const onDeleteClicked = async (i, scheduled) => {
     if (scheduled) {
