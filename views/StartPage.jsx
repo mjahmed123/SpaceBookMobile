@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   View, Text, StyleSheet,
 } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import CustomButton from '../components/CustomButton';
 
 function LoginIcon() {
@@ -16,6 +16,7 @@ function RegisterIcon() {
 export default function StartPage({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Ionicons name="rocket-outline" size={100} color="white" />
       <Text style={styles.title}>SpaceBook</Text>
       <CustomButton style={styles.button} Icon={RegisterIcon} title="Register" onPress={() => navigation.navigate('Register')} />
       <CustomButton style={styles.button} Icon={LoginIcon} title="Login" onPress={() => navigation.navigate('Login')} />
