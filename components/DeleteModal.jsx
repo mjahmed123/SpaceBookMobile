@@ -11,6 +11,10 @@ function CheckMarkIcon() {
   return <Entypo name="check" size={18} color="white" />;
 }
 
+function CrossIcon() {
+  return <Entypo name="cross" size={18} color="white" />;
+}
+
 export default function DeleteModal({ message, onYesPress, onNoPress }) {
   return (
     <Modal visible transparent>
@@ -19,7 +23,7 @@ export default function DeleteModal({ message, onYesPress, onNoPress }) {
           <Text style={styles.text}>{message}</Text>
           <View style={styles.buttons}>
             <CustomButton title="Yes" color="red" onPress={onYesPress} Icon={CheckMarkIcon} style={{ borderRadius: 15, marginRight: 5 }} />
-            <CustomButton title="No" onPress={onNoPress} Icon={CheckMarkIcon} style={{ borderRadius: 15, marginRight: 5 }} />
+            <CustomButton title="No" onPress={onNoPress} Icon={CrossIcon} style={{ borderRadius: 15, marginRight: 5 }} />
           </View>
         </View>
       </View>
