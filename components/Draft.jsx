@@ -3,10 +3,12 @@ import {
   View, Text, StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import CustomButton from './CustomButton';
 import parseDate from '../utils/parseDate';
 import DeleteModal from './DeleteModal';
+import DatePickerModal from './DatePickerModal';
+import schedulePost from '../services/Schedule';
 
 function DeleteIcon() {
   return <Entypo name="trash" size={16} color="white" />;
@@ -14,12 +16,29 @@ function DeleteIcon() {
 function EditIcon() {
   return <Entypo name="edit" size={16} color="white" />;
 }
+function ScheduleIcon() {
+  return <MaterialIcons name="schedule" size={16} color="white" />;
+}
 
 export default function Draft({ draft, onDeleteClicked, onEditPressed }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const onSchedule = (date) => {
+    schedulePost({
+      text: draft.text,
+      timestamp: date.getTime(),
+      postToUserId: draft.userId,
+    });
+    onDeleteClicked(true);
+    setShowDatePicker(false);
+  };
 
   return (
     <View style={styles.container}>
+      {showDatePicker && (
+        <DatePickerModal onSchedule={onSchedule} onCancelClicked={() => setShowDatePicker(false)} />
+      )}
       {showDeleteModal && <DeleteModal message="Are you sure you want to discard this draft?" onYesPress={onDeleteClicked} onNoPress={() => setShowDeleteModal(false)} />}
       <View style={styles.details}>
         <Text style={styles.name}>{`To: ${draft.firstName}`}</Text>
@@ -28,7 +47,8 @@ export default function Draft({ draft, onDeleteClicked, onEditPressed }) {
       <Text style={styles.text}>{draft.text}</Text>
       <View style={styles.buttons}>
         <CustomButton onPress={onEditPressed} Icon={EditIcon} style={{ marginRight: 10 }} />
-        <CustomButton onPress={() => setShowDeleteModal(true)} color="red" Icon={DeleteIcon} />
+        <CustomButton onPress={() => setShowDeleteModal(true)} color="red" Icon={DeleteIcon} style={{ marginRight: 'auto' }} />
+        <CustomButton Icon={ScheduleIcon} onPress={() => setShowDatePicker(true)} color="#d96c07" />
       </View>
     </View>
   );
@@ -71,6 +91,5 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: 'row',
-    marginLeft: 'auto',
   },
 });

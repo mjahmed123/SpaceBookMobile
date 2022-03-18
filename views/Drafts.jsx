@@ -3,9 +3,11 @@ import { ScrollView, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Draft from '../components/Draft';
 import { getDrafts, removeDraft } from '../utils/localStore';
+import NoticeModal from '../components/NoticeModal';
 
 export default function Drafts({ navigation }) {
   const [drafts, setDrafts] = useState(null);
+  const [showScheduleNotice, setShowScheduleNotice] = useState(false);
 
   const fetchDraft = () => {
     getDrafts().then(setDrafts);
@@ -13,18 +15,27 @@ export default function Drafts({ navigation }) {
   useEffect(() => {
     fetchDraft();
   }, []);
-  const onDeleteClicked = async (i) => {
+  const onDeleteClicked = async (i, scheduled) => {
+    if (scheduled) {
+      setShowScheduleNotice(true);
+    }
     await removeDraft(i);
     fetchDraft();
   };
   return (
     <ScrollView>
+      {showScheduleNotice && (
+      <NoticeModal
+        message="Draft has been scheduled!"
+        onOkayClicked={() => setShowScheduleNotice(false)}
+      />
+      )}
       {!drafts?.length && <Text style={{ textAlign: 'center', color: 'rgba(255,255,255,0.8)', marginTop: 30 }}>Looks like you dont have any drafts!</Text>}
       {drafts?.map((draft, i) => (
         <Draft
           key={draft.userId + draft.text}
           onEditPressed={() => navigation.navigate('Profile', { userId: draft.userId, text: draft.text, draftIndex: i })}
-          onDeleteClicked={() => onDeleteClicked(i)}
+          onDeleteClicked={(scheduled) => onDeleteClicked(i, scheduled)}
           draft={draft}
         />
       ))}
