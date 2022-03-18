@@ -17,8 +17,7 @@ Refer to this repos readme to setup the post scheduler: https://github.com/mjahm
 The app should automatically open in your default browser.
 
 
-## Screenshots
-Screenshots coming soon!
+
 
 ## Routes To Implement:
 
@@ -48,3 +47,11 @@ Screenshots coming soon!
 - [x] PATCH /user/{user_id}/post/{post_id}
 - [x] POST /user/{user_id}/post/{post_id}/like
 - [x] DELETE /user/{user_id}/post/{post_id}/like
+
+## Screenshots
+![Start Page](./screenshots/StartPage.png)
+![Profile Page](./screenshots/Profile.png)
+![Friends Page](./screenshots/Friends.png)
+![Drafts Page](./screenshots/Drafts.png)
+![Schedule Post Page](./screenshots/Schedule.png)
+![Settings Page](./screenshots/Settings.png)
