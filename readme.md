@@ -6,12 +6,16 @@ Spacebook is a totally unique, non-plagiarised social media platform which allow
 ## Backend Setup
 Refer to this repos readme to setup the backend: https://github.com/ash-williams/Spacebook
 
+## Backend Post Scheduler Setup
+Refer to this repos readme to setup the post scheduler: https://github.com/mjahmed123/SpaceBookSchedulingAPI
+
 ## Frontend Setup
 1. Clone this repo using the command `git clone https://github.com/mjahmed123/SpaceBookMobile.git`
 2. Navigate to the directory using `cd SpaceBookMobile`
-2. Run `npm install` to install the required dependencies.
-3. Run `npm run web` to serve the app locally.
+3. Run `npm install` to install the required dependencies.
+4. Run `npm run web` to serve the app locally.
 The app should automatically open in your default browser.
+
 
 ## Screenshots
 Screenshots coming soon!
