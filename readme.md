@@ -5,6 +5,9 @@ Link to this repository: https://github.com/mjahmed123/SpaceBookMobile
 ## Description
 Spacebook is a totally unique, non-plagiarised social media platform which allows astronauts to communicate with each other.
 
+## Style Guide
+Spacebook follows the Airbnb style guide with the help of the vs code eslint extension that detects the errors in the editor and allows the errors to be automatically fixed when you save the file.
+
 ## Backend Setup
 Refer to this repos readme to setup the backend: https://github.com/ash-williams/Spacebook
 
@@ -18,8 +21,15 @@ Refer to this repos readme to setup the post scheduler: https://github.com/mjahm
 4. Run `npm run web` to serve the app locally.
 The app should automatically open in your default browser.
 
-
-
+## Dependencies Used:
+• `react-navigation` - Used to navigate throughout the app using bottom tabs and stack navigator.
+• `axios` - Allows you to send HTTP requests to a server. This is used to send requests to the SpaceBook API.
+• `email-validator` - Used to validate email to give useful errors to the user.
+• `@expo/vector-icons` - Provides a variety of icons to use.
+• `mobx` - Allows you to globally access data throughout the code.
+• `expo-image-picker` - Used to browse the users files for images.
+• `luxon` - Used to validate the date provided by the user when scheduling a post.
+• `@react-native-async-storage/async-storage` - Used to store the users token and id, drafted posts and last used tab.
 
 ## Routes To Implement:
 
