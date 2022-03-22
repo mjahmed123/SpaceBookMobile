@@ -22,13 +22,13 @@ Refer to this repos readme to setup the post scheduler: https://github.com/mjahm
 The app should automatically open in your default browser.
 
 ## Dependencies Used:
-• `react-navigation` - Used to navigate throughout the app using bottom tabs and stack navigator.
-• `axios` - Allows you to send HTTP requests to a server. This is used to send requests to the SpaceBook API.
-• `email-validator` - Used to validate email to give useful errors to the user.
-• `@expo/vector-icons` - Provides a variety of icons to use.
-• `mobx` - Allows you to globally access data throughout the code.
-• `expo-image-picker` - Used to browse the users files for images.
-• `luxon` - Used to validate the date provided by the user when scheduling a post.
+• `react-navigation` - Used to navigate throughout the app using bottom tabs and stack navigator.   
+• `axios` - Allows you to send HTTP requests to a server. This is used to send requests to the SpaceBook API.   
+• `email-validator` - Used to validate email to give useful errors to the user.   
+• `@expo/vector-icons` - Provides a variety of icons to use.   
+• `mobx` - Allows you to globally access data throughout the code.   
+• `expo-image-picker` - Used to browse the users files for images.   
+• `luxon` - Used to validate the date provided by the user when scheduling a post.   
 • `@react-native-async-storage/async-storage` - Used to store the users token and id, drafted posts and last used tab.
 
 ## Routes To Implement:
