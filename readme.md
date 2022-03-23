@@ -31,9 +31,16 @@ The app should automatically open in your default browser.
 • `luxon` - Used to validate the date provided by the user when scheduling a post.   
 • `@react-native-async-storage/async-storage` - Used to store the users token and id, drafted posts and last used tab.
 
+## Extra Features
+• Draft a post.   
+• Schedule a drafted post at a certain date and time.   
+Note: The time to schedule a post is synced in accordance with the date and time of the SQL SYSDATE.
+• Auto login after registering.   
+• Posts max letter limit counter.   
+
 ## Routes To Implement:
 
-### User Managment
+### User Management
 - [x] POST /user
 - [x] POST /login
 - [x] POST /logout
@@ -42,7 +49,7 @@ The app should automatically open in your default browser.
 - [x] GET /user/{user_id}/photo
 - [x] POST /user/{user_id}/photo
 
-### Friend Managment
+### Friend Management
 - [x] GET /user/{user_id}/friends
 - [x] POST /user/{user_id}/friends
 - [x] GET /friendrequests
@@ -50,7 +57,7 @@ The app should automatically open in your default browser.
 - [x] DELETE /friendrequests/{user_id}
 - [x] GET /search
 
-### Post Managment
+### Post Management
 - [x] GET /user/{user_id}/post
 - [x] POST /user/{user_id}/post
 - [ ] GET /user/{user_id}/post/{post_id}
